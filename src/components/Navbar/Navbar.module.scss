@@ -1,0 +1,15 @@
+.navButton {
+    color: black;
+    border-radius: 8px;
+    background-color: transparent;
+    transition: all 0.1s;
+    &:hover {
+        background-color: transparent !important;
+        color: #BD93F7;
+    }
+    &[data-active="true"] {
+        background-color: #E5D5FA !important;
+        color: #9854F6;
+        font-weight: 700;
+    }
+}
