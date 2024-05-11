@@ -1,0 +1,48 @@
+.pill {
+    background-color: inherit !important;
+    padding: 0 !important;
+
+    button {
+        display: none;
+    }
+
+    &:not(:last-of-type)::after {
+        padding-right: 3px;
+        content: ",";
+    }
+
+}
+
+.pillsList {
+    gap: 0 !important;
+    flex-wrap: nowrap !important;
+    width: 150px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &:-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.inputField {}
+
+.inputFieldHidden {
+    position: absolute;
+    top: -5000px;
+}
+
+.option {
+    border-radius: 8px !important;
+    color: black;
+    &:hover {
+        color: black;
+        background-color: var(--mantine-color-purple-1) !important;
+    }
+
+    &[aria-selected="true"] {
+        color: white;
+        background-color: var(--mantine-color-purple-5) !important;
+    }
+}

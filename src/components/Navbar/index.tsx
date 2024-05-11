@@ -6,18 +6,17 @@ import {
   NavLink,
 } from "@mantine/core";
 import { useLocation, Link } from "react-router-dom";
-
-import icon from "../../../public/icon-navbar.svg";
+import icon from "/icon-navbar.svg";
 import style from "./Navbar.module.scss";
 
 export const Navbar = () => {
   const pathname = useLocation().pathname;
 
   return (
-    <AppShell.Navbar p={24} bg="purple.1">
+    <AppShell.Navbar className={style.root}>
       <Group mb={100}>
-        <Image h="32px" w="32px" src={icon} alt="Icon ArrowFlicks" />
-        <Text c="purple.5" size="24px" fw={600}>
+        <Image className={style.icon} src={icon} alt="Icon ArrowFlicks" />
+        <Text className={style.logoText}>
           ArrowFlicks
         </Text>
       </Group>
@@ -27,19 +26,14 @@ export const Navbar = () => {
         label="Movies"
         component={Link}
         to="/"
-        mb={16}
-        classNames={{
-          root: style.navButton,
-        }}
+        className={style.navButton}
       />
       <NavLink
         active={pathname === "/rated"}
         label="Rated movies"
         component={Link}
         to="/rated"
-        classNames={{
-          root: style.navButton,
-        }}
+        className={style.navButton}
       />
     </AppShell.Navbar>
   );

@@ -1,15 +1,33 @@
+.root {
+    padding: 24px;
+    background-color: var(--mantine-color-purple-1) !important;
+    border-right: 0 !important;
+}
+
 .navButton {
     color: black;
     border-radius: 8px;
     background-color: transparent;
     transition: all 0.1s;
+    &:first-of-type {
+        margin-bottom: 16px;
+    }
     &:hover {
         background-color: transparent !important;
-        color: #BD93F7;
+        color: var(--mantine-color-purple-4);
     }
     &[data-active="true"] {
-        background-color: #E5D5FA !important;
-        color: #9854F6;
+        background-color: var(--mantine-color-purple-2) !important;
+        color: var(--mantine-color-purple-5);
         font-weight: 700;
     }
+}
+.logoText {
+    color: var(--mantine-color-purple-5) !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+.icon {
+    width: 32px;
+    height: 32px;
 }
