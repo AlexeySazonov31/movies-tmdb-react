@@ -14,7 +14,7 @@ export const Navbar = () => {
 
   return (
     <AppShell.Navbar className={style.root}>
-      <Group mb={100}>
+      <Group mb={80}>
         <Image className={style.icon} src={icon} alt="Icon ArrowFlicks" />
         <Text className={style.logoText}>
           ArrowFlicks
@@ -27,6 +27,7 @@ export const Navbar = () => {
         component={Link}
         to="/"
         className={style.navButton}
+        h={42}
       />
       <NavLink
         active={pathname === "/rated"}
@@ -34,6 +35,7 @@ export const Navbar = () => {
         component={Link}
         to="/rated"
         className={style.navButton}
+        h={42}
       />
     </AppShell.Navbar>
   );

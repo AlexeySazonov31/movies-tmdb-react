@@ -1,16 +1,17 @@
 import { createTheme } from "@mantine/core";
 
 export const theme = createTheme({
+  fontFamily: 'Inter, sans-serif',
   colors: {
     gray: [
       "#FFFFFF",
       "#F5F5F6",
       "#EAEBED",
       "#D5D6DC",
+      "#000000", // gray 4 - empty
       "#ACADB9",
       "#7B7C88",
-      "#000000",
-      "#000000",
+      "#232134",
       "#000000",
       "#000000",
     ],

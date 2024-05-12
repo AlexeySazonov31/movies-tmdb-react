@@ -9,6 +9,7 @@
     border-radius: 8px;
     background-color: transparent;
     transition: all 0.1s;
+    padding: 10px !important;
     &:first-of-type {
         margin-bottom: 16px;
     }
@@ -20,6 +21,9 @@
         background-color: var(--mantine-color-purple-2) !important;
         color: var(--mantine-color-purple-5);
         font-weight: 700;
+    }
+    span {
+        font-size: 16px !important;
     }
 }
 .logoText {

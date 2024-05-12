@@ -17,7 +17,7 @@ export default function App() {
       padding="md"
     >
       <Navbar />
-      <AppShell.Main>
+      <AppShell.Main bg="gray.1">
         <RouterSwitcher/>
       </AppShell.Main>
     </AppShell>
