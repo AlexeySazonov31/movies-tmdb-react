@@ -8,17 +8,38 @@
     width: fit-content;
     text-align: end;
     transition: all 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        margin-left: 4px;
+        display: inline;
+        filter: brightness(0) saturate(100%) invert(32%) sepia(92%) saturate(1013%) hue-rotate(238deg) brightness(102%) contrast(97%);
+    }
 
     &:hover {
         color: var(--mantine-color-purple-4) !important;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(67%) sepia(25%) saturate(2229%) hue-rotate(211deg) brightness(100%) contrast(94%);
+        }
     }
 
     &:active:not(:disabled) {
         transform: translateY(1px);
         color: var(--mantine-color-purple-6) !important;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(10%) sepia(82%) saturate(7085%) hue-rotate(269deg) brightness(72%) contrast(86%);
+        }
     }
 
     &:disabled {
         color: var(--mantine-color-gray-6) !important;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(54%) sepia(8%) saturate(447%) hue-rotate(198deg) brightness(89%) contrast(90%);
+        }
     }
 }
