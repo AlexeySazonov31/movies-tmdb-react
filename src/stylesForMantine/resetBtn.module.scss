@@ -1,0 +1,24 @@
+// * custom: UnstyledButton
+
+.root {
+    font-size: 14px !important;
+    color: var(--mantine-color-purple-5) !important;
+    font-weight: 500;
+    height: 42px;
+    width: fit-content;
+    text-align: end;
+    transition: all 0.1s;
+
+    &:hover {
+        color: var(--mantine-color-purple-4) !important;
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(1px);
+        color: var(--mantine-color-purple-6) !important;
+    }
+
+    &:disabled {
+        color: var(--mantine-color-gray-6) !important;
+    }
+}

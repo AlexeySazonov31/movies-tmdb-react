@@ -1,4 +1,7 @@
-import { createTheme } from "@mantine/core";
+import { MultiSelect, Select, NumberInput, createTheme, UnstyledButton } from "@mantine/core";
+
+import filtersClasses from "./stylesForMantine/filters.module.scss";
+import resetBtnClasses from "./stylesForMantine/resetBtn.module.scss";
 
 export const theme = createTheme({
   fontFamily: 'Inter, sans-serif',
@@ -40,4 +43,10 @@ export const theme = createTheme({
       "#FAB005",
     ]
   },
+  components: {
+    MultiSelect: MultiSelect.extend({classNames: filtersClasses}),
+    Select: Select.extend({classNames: filtersClasses}),
+    NumberInput: NumberInput.extend({classNames: filtersClasses}),
+    UnstyledButton: UnstyledButton.extend({classNames: resetBtnClasses})
+  }
 });
