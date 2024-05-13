@@ -62,3 +62,8 @@ $mantine-breakpoint-xl: '88em';
         @content;
     }
 }
+
+// for whole project
+html {
+    background-color: #F5F5F6;
+}

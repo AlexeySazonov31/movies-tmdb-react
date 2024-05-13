@@ -22,7 +22,7 @@ export const Navbar = () => {
       </Group>
 
       <NavLink
-        active={pathname === "/"}
+        active={pathname === "/" || /^\/movies\/.+/.test(pathname)}
         label="Movies"
         component={Link}
         to="/"

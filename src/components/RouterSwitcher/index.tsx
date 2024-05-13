@@ -1,12 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import { Home, FullMovie, RatedMovies, PageNotFound } from "../../pages";
+import { Layout } from "../Layout";
 
 export const RouterSwitcher = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/rated" element={<RatedMovies />} />
-      <Route path="/movie/:title" element={<FullMovie />} />
+      <Route path="/" element={<Layout />}>
+        <Route path="" element={<Home />} />
+        <Route path="rated" element={<RatedMovies />} />
+        <Route path="movies/:title" element={<FullMovie />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
