@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+
 import { Home, FullMovie, RatedMovies, PageNotFound } from "../../pages";
 import { Layout } from "../Layout";
 

@@ -1,0 +1,31 @@
+.root {
+
+    .control {
+        border-radius: 4px !important;
+        background-color: white !important;
+        color: black !important;
+        border-color: var(--mantine-color-gray-3) !important;
+        font-size: 16px !important;
+        transition: all 0.2s;
+
+        svg {
+            filter: brightness(0) saturate(100%) invert(53%) sepia(10%) saturate(339%) hue-rotate(198deg) brightness(89%) contrast(87%);
+        }
+
+        &[data-active] {
+            background-color: var(--mantine-color-purple-5) !important;
+            color: white !important;
+            border-color: var(--mantine-color-purple-5) !important;
+        }
+
+        &[data-disabled] {
+            border-color: var(--mantine-color-gray-2) !important;
+
+            svg {
+                filter: brightness(0) saturate(100%) invert(91%) sepia(18%) saturate(22%) hue-rotate(228deg) brightness(96%) contrast(85%);
+            }
+        }
+    }
+
+    .dots {}
+}

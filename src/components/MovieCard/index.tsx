@@ -7,14 +7,16 @@ import {
   Paper,
   Text,
 } from "@mantine/core";
-import { Movie } from "../../pages/Home";
+
+import { Movie } from "../../types";
 
 export const MovieCard = ({ data }: { data: Movie }) => {
   return (
     <Paper p={24}>
       <Flex>
         <Image
-          w={120}
+          w={119}
+          h={170}
           src={
             data.poster_path
               ? "https://image.tmdb.org/t/p/original" + data.poster_path
@@ -34,7 +36,11 @@ export const MovieCard = ({ data }: { data: Movie }) => {
           {data.release_date && (
             <Text>{new Date(data.release_date).getFullYear()}</Text>
           )}
-          {data.vote_count > 0 && <Text>{data.vote_average}, {data.vote_count}</Text>}
+          {data.vote_count > 0 && (
+            <Text>
+              {data.vote_average}, {data.vote_count}
+            </Text>
+          )}
         </Box>
       </Flex>
     </Paper>

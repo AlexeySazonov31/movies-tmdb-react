@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
+
 import { Button, Center, Image, Stack, Text } from "@mantine/core";
 import style from "./PageNotFound.module.scss";
-import { Link } from "react-router-dom";
 
 export const PageNotFound = () => {
   return (
