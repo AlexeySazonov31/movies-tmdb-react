@@ -23,10 +23,10 @@ const fetchGenres = (): Promise<Genre[]> =>
 const fetchMovies = (
   page: string,
   sort: string,
-  genres: number[] | [] = [],
-  year: string | null = null,
-  ratingMin: number | string = "",
-  raitingMax: number | string = ""
+  genres: number[] | [],
+  year: string | null,
+  ratingMin: number | string | null,
+  raitingMax: number | string | null
 ): Promise<DataMovies> =>
   axios
     .get("/api/movies", {
@@ -47,6 +47,7 @@ export const Home = () => {
   const [sort, setSort] = useState<SortValue>(sortValues[0].name);
   const [activePage, setActivePage] = useState<number>(1);
 
+  // * get Genres
   const {
     isError: isErrorGenres,
     error: errorGenres,
@@ -57,6 +58,7 @@ export const Home = () => {
     retry: false,
   });
 
+  // * get Movies
   const {
     isFetching: isFetchingMovies,
     isError: isErrorMovies,
@@ -76,8 +78,8 @@ export const Home = () => {
           return Number(id);
         }),
         filtersValue.year,
-        filtersValue.ratingMin,
-        filtersValue.ratingMax
+        filtersValue.ratingMin ? filtersValue.ratingMin : null,
+        filtersValue.ratingMax ? filtersValue.ratingMax : null
       ),
     placeholderData: keepPreviousData,
   });
@@ -108,7 +110,7 @@ export const Home = () => {
         isErrorGenres={isErrorGenres}
         dataGenres={dataGenres ? dataGenres : null}
       />
-      <Grid>
+      <Grid justify="center">
         {isFetchingMovies &&
           [...Array(20)].map((elem, key) => {
             return (
@@ -117,26 +119,26 @@ export const Home = () => {
               </Grid.Col>
             );
           })}
-        {!isFetchingMovies && dataMovies?.results.length ? (
-          dataMovies?.results.map((elem) => {
-            return (
-              <Grid.Col key={elem.id} span={{ base: 6 }}>
-                <MovieCard data={elem} />
+        {!isFetchingMovies && dataMovies?.results.length
+          ? dataMovies?.results.map((elem) => {
+              return (
+                <Grid.Col key={elem.id} span={{ base: 12, md: 6, lg: 6 }}>
+                  <MovieCard data={elem} genres={dataGenres ? dataGenres : null}/>
+                </Grid.Col>
+              );
+            })
+          : !isErrorMovies && !isFetchingMovies && (
+              <Grid.Col span={{ base: 12 }}>
+                <Stack justify="flex-start" align="center" h="60vh">
+                  <Image src="/no-movies.png" alt="no movies" w={311} h={252} />
+                  <Text size="20" fw={600} mt={16} lh={1.3} ta="center">
+                    We don't have such movies, look for another one
+                  </Text>
+                </Stack>
               </Grid.Col>
-            );
-          })
-        ) : (
-          <Grid.Col span={{ base: 12 }}>
-            <Stack justify="flex-start" align="center" h="70vh">
-              <Image src="/no-movies.png" alt="no movies" w={311} h={252} />
-              <Text size="20" fw={600} mt={16} lh={1}>
-                We don't have such movies, look for another one
-              </Text>
-            </Stack>
-          </Grid.Col>
-        )}
+            )}
       </Grid>
-      {isErrorMovies && (
+      {!isFetchingMovies && isErrorMovies && (
         <Center h="40vh">
           <Text size="20" fw={600}>
             Error: {errorMovies.message}
