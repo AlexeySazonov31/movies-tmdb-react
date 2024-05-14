@@ -37,6 +37,7 @@
 
     &:disabled {
         color: var(--mantine-color-gray-6) !important;
+        cursor: not-allowed;
 
         img {
             filter: brightness(0) saturate(100%) invert(54%) sepia(8%) saturate(447%) hue-rotate(198deg) brightness(89%) contrast(90%);

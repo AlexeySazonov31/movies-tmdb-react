@@ -4,7 +4,7 @@ import {
   sortValues,
   dropdownProps,
   initialFiltersValue,
-} from "../../pages/Home/constantsHome";
+} from "../../constants";
 
 import {
   Grid,
@@ -21,7 +21,6 @@ const iconDown = <Image src={DownSvg} alt="icon down" h={24} w={24} />;
 const iconClose = <Image src={CloseSvg} alt="icon close" h={16} w={16} />;
 
 export const Filters = ({ ...props }: FiltersProps) => {
-
   const resetFilters = (): void => {
     props.setFiltersValue(initialFiltersValue);
   };
@@ -103,7 +102,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 size="md"
                 placeholder="To"
                 value={props.filtersValue.ratingMax}
-                onChange={(value) => 
+                onChange={(value) =>
                   props.setFiltersValue({
                     ...props.filtersValue,
                     ratingMax: value,
@@ -137,7 +136,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
             onChange={props.setSort}
             withScrollArea={false}
             withCheckIcon={false}
-            data={sortValues}
+            data={sortValues.map((elem) => elem.name)}
           />
         </Grid.Col>
       </Grid>

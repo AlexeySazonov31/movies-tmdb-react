@@ -4,13 +4,13 @@ export const years: string[] = Array.from({ length: ((new Date()).getFullYear() 
   String(i + 1870)
 ).reverse();
 
-export const sortValues: string[] = [
-  "Most Popular",
-  "Least Popular",
-  "Most Rated",
-  "Least Rated",
-  "Most Voted",
-  "Least Voted",
+export const sortValues: { name: string, value: string }[] = [
+  { name: "Most Popular", value: "popularity.desc", },
+  { name: "Least Popular", value: "popularity.asc", },
+  { name: "Most Rated", value: "vote_average.desc", },
+  { name: "Least Rated", value: "vote_average.asc", },
+  { name: "Most Voted", value: "vote_count.desc", },
+  { name: "Least Voted", value: "vote_count.asc", },
 ];
 
 export const dropdownProps: ComboboxProps | undefined = {
