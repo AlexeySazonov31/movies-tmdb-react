@@ -10,24 +10,6 @@ export interface Genre {
     name: string;
 }
 
-export interface Movie {
-    adult: boolean;
-    backdrop_path: string | null;
-    genre_ids: number[];
-    id: number;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: string | null;
-    release_date: string;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
-    rating?: number;
-}
-
 export interface DataMovies {
     page: number;
     results: Movie[];
@@ -56,60 +38,79 @@ export interface FiltersProps {
 
 // * Full Movie start
 
-export interface FullMovie {
+export interface Movie {
     adult: boolean
-    backdrop_path: string
-    belongs_to_collection: BelongsToCollection
-    budget: number
-    genres: Genre[]
-    homepage: string
+    backdrop_path: string | null
+    belongs_to_collection?: BelongsToCollection | null
+    budget?: number
+    genres?: Genre[] | []
+    homepage?: string
     id: number
-    imdb_id: string
-    origin_country: string[]
+    imdb_id?: string
+    origin_country?: string[]
     original_language: string
-    original_title: string
+    original_title?: string
     overview: string
     popularity: number
-    poster_path: string
-    production_companies: ProductionCompany[]
-    production_countries: ProductionCountry[]
+    poster_path: string | null
+    production_companies?: ProductionCompany[] | null
+    production_countries?: ProductionCountry[] | null
     release_date: string
-    revenue: number
-    runtime: number
-    spoken_languages: SpokenLanguage[]
-    status: string
-    tagline: string
+    revenue?: number
+    runtime?: number
+    spoken_languages?: SpokenLanguage[] | []
+    status?: string
+    tagline?: string
     title: string
     video: boolean
     vote_average: number
     vote_count: number
     rating?: number
     genre_ids?: number[] // ? for valid ts in MovieCard (think about getting rid of)
+    videos?: Videos
+
 }
 
-export interface BelongsToCollection {
+interface BelongsToCollection {
     id: number
     name: string
     poster_path: string
     backdrop_path: string
 }
 
-export interface ProductionCompany {
+interface ProductionCompany {
     id: number
     logo_path?: string
     name: string
     origin_country: string
 }
 
-export interface ProductionCountry {
+interface ProductionCountry {
     iso_3166_1: string
     name: string
 }
 
-export interface SpokenLanguage {
+interface SpokenLanguage {
     english_name: string
     iso_639_1: string
     name: string
+}
+
+interface Videos {
+    results: Result[]
+}
+
+export interface Result {
+    iso_639_1: string
+    iso_3166_1: string
+    name: string
+    key: string
+    site: string
+    size: number
+    type: string
+    official: boolean
+    published_at: string
+    id: string
 }
 
 // * full movie end

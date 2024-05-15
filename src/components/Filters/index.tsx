@@ -35,7 +35,6 @@ export const Filters = ({ ...props }: FiltersProps) => {
     !props.filtersValue.ratingMin &&
     !props.filtersValue.ratingMax
   ) {
-    console.log("disabled reset btn");
     resetBtnProps.disabled = true;
   }
 

@@ -1,5 +1,5 @@
 import { Dispatch, useState } from "react";
-import { FullMovie, Movie } from "../../types";
+import { Movie } from "../../types";
 
 import style from "./RatingModal.module.scss";
 
@@ -22,11 +22,11 @@ export const RatingModal = ({
   close,
   rating,
 }: {
-  data: Movie | FullMovie;
+  data: Movie;
   opened: boolean;
   close: () => void;
   rating: number | null;
-  setRatedMovies: Dispatch<(Movie | FullMovie)[] | null>;
+  setRatedMovies: Dispatch<Movie[] | null>;
 }) => {
   const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);
 
@@ -39,7 +39,7 @@ export const RatingModal = ({
     }
 
     const json = localStorage.getItem("ratedMovies");
-    let movies: (Movie | FullMovie)[];
+    let movies: Movie[];
     // check exist rated movies
     if (json) {
       movies = JSON.parse(json);

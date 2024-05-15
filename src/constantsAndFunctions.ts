@@ -1,9 +1,9 @@
 import { ComboboxProps } from "@mantine/core";
-import { DataMovies, FullMovie, Genre, Movie } from "./types";
+import { DataMovies, Genre, Movie } from "./types";
 import axios from "axios";
 
 
-export const years: string[] = Array.from({ length: ((new Date()).getFullYear() + 5) - 1870 + 1 }, (n, i) =>
+export const years: string[] = Array.from({ length: ((new Date()).getFullYear() + 8) - 1870 + 1 }, (n, i) =>
   String(i + 1870)
 ).reverse();
 
@@ -60,7 +60,7 @@ export const fetchMovies = (
 
 export const fetchMovie = (
   id: string
-): Promise<FullMovie> =>
+): Promise<Movie> =>
   axios.get(`/api/movie/${id}`).then(response => response.data)
 
 
@@ -95,18 +95,18 @@ export function abbrNum(number: number | string, decPlaces: number) {
 // * get genres names Array
 export function genresIdsToStringNames(
   arrIds: number[],
-  genresArr: Genre[] | null
+  genresArr: Genre[] | null,
+  fullCard: boolean
 ): string {
   if (arrIds.length && genresArr?.length) {
     const arrNames = arrIds.map((id) => {
       const name = genresArr.find((genre) => id === genre.id)?.name;
       return name;
     });
-    if (arrNames.length > 3) {
+    if (arrNames.length > 3 && !fullCard) {
       arrNames.splice(3);
-      console.log((arrNames.join(", ")).length > 15);
     }
-    if ((arrNames.join(", ")).length > 30) {
+    if ((arrNames.join(", ")).length > 30 && !fullCard) {
       arrNames.splice(2);
       arrNames.push("...");
     }
@@ -124,20 +124,34 @@ export function genresIdsToStringNames(
 export function getRatedMovies(): Movie[] | null {
   const ratedMoviesJson: string | null = localStorage.getItem("ratedMovies");
   let res: Movie[] | null;
-  if(ratedMoviesJson){
+  if (ratedMoviesJson) {
     res = JSON.parse(ratedMoviesJson);
   } else {
     res = null;
   }
   return res;
 }
-export function getMovieRating(id: number, ratedMovies: (Movie | FullMovie)[] | null): number | null {
-  if(ratedMovies){
-    const movie: Movie | FullMovie | undefined = ratedMovies.find(elem => elem.id === id);
-    if(movie && movie.rating){
+export function getMovieRating(id: number, ratedMovies: Movie[] | null): number | null {
+  if (ratedMovies) {
+    const movie: Movie | undefined = ratedMovies.find(elem => elem.id === id);
+    if (movie && movie.rating) {
       return movie.rating;
     }
   }
   return null;
+}
+
+export function timeConvert(n: number): string {
+  const num = n;
+  const hours = num / 60;
+  const rhours = Math.floor(hours);
+  const minutes = (hours - rhours) * 60;
+  let rminutes: string | number = Math.round(minutes);
+  rminutes = String(rminutes).length === 1 ? "0" + rminutes : rminutes;
+  return rhours + "h " + rminutes + "m";
+}
+
+export function dateConvert(n: string): string {
+  return (new Date(n)).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 

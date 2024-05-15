@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { FiltersValue, SortValue, Movie, FullMovie } from "../../types";
+import { FiltersValue, SortValue, Movie } from "../../types";
 
 import {
   Container,
@@ -14,16 +14,23 @@ import {
 
 import { MovieCard, Filters, MovieSkeleton } from "../../components";
 import { useEffect, useState } from "react";
-import { sortValues, initialFiltersValue, fetchGenres, fetchMovies, getRatedMovies, getMovieRating } from "../../constantsAndFunctions";
-
+import {
+  sortValues,
+  initialFiltersValue,
+  fetchGenres,
+  fetchMovies,
+  getRatedMovies,
+  getMovieRating,
+} from "../../constantsAndFunctions";
 
 export const Home = () => {
-
   const [filtersValue, setFiltersValue] =
     useState<FiltersValue>(initialFiltersValue);
   const [sort, setSort] = useState<SortValue>(sortValues[0].name);
   const [activePage, setActivePage] = useState<number>(1);
-  const [ratedMovies, setRatedMovies] = useState<(Movie | FullMovie)[] | null>(getRatedMovies());
+  const [ratedMovies, setRatedMovies] = useState<Movie[] | null>(
+    getRatedMovies()
+  );
 
   // * get Genres
   const {
@@ -62,7 +69,6 @@ export const Home = () => {
     placeholderData: keepPreviousData,
   });
 
-  // TODO modal alert error
   if (isErrorGenres) {
     console.log(errorGenres.message);
   }
@@ -124,13 +130,13 @@ export const Home = () => {
       </Grid>
       {!isFetchingMovies && isErrorMovies && (
         <Center h="40vh">
-          <Text size="20" fw={600}>
+          <Text size="20px" fw={600}>
             Error: {errorMovies.message}
           </Text>
         </Center>
       )}
       {dataMovies?.results.length && Number(dataMovies.total_pages) > 1 ? (
-        <Group justify="end" mt={24} mb={82}>
+        <Group justify="end" mt={24}>
           <Pagination
             value={activePage}
             onChange={setActivePage}

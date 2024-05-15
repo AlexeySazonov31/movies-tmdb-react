@@ -13,12 +13,16 @@ import {
   Text,
 } from "@mantine/core";
 
-import { FullMovie, Genre, Movie } from "../../types";
+import { Genre, Movie } from "../../types";
 
 import style from "./MovieCard.module.scss";
-import { abbrNum, filterSvgYellow, genresIdsToStringNames } from "../../constantsAndFunctions";
+import {
+  abbrNum,
+  filterSvgYellow,
+} from "../../constantsAndFunctions";
 
 import { RatingModal } from "../RatingModal";
+import { MovieCardInfo } from "./MovieCardInfo";
 
 export const MovieCard = ({
   data,
@@ -27,11 +31,11 @@ export const MovieCard = ({
   setRatedMovies,
   full = false,
 }: {
-  data: Movie | FullMovie;
-  genres: Genre[] | null;
+  data: Movie;
+  genres: Genre[] | null | undefined;
   rating: number | null;
-  setRatedMovies: Dispatch<(Movie | FullMovie)[] | null>;
-  full: boolean;
+  setRatedMovies: Dispatch<Movie[] | null>;
+  full?: boolean;
 }) => {
   const [isImageLoad, setIsImageLoad] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false); // * modal
@@ -59,7 +63,7 @@ export const MovieCard = ({
           )}
           <Image
             w={full ? 250 : 119}
-            h={full ? 352 : 170}
+            h={full ? "auto" : 170}
             src={
               data.poster_path
                 ? "https://image.tmdb.org/t/p/w500" + data.poster_path
@@ -81,7 +85,7 @@ export const MovieCard = ({
             >
               <Stack align="flex-start" justify="flex-start" gap={6}>
                 <Text
-                  classNames={{ root: style.titleLink }}
+                  classNames={{ root: full ? style.title : style.titleLink }}
                   component={Link}
                   to={`/movies/${data.id}`}
                 >
@@ -144,27 +148,9 @@ export const MovieCard = ({
                 )}
               </Group>
             </Group>
-            <Stack align="flex-start" justify="flex-start">
-              {data.genre_ids?.length && genres?.length ? (
-                <Text c="gray.6">
-                  Genres
-                  <Text
-                    span
-                    c="black"
-                    inherit
-                    ml={6}
-                    style={{
-                      position: "relative",
-                      bottom: "-1px",
-                    }}
-                  >
-                    {genresIdsToStringNames(data.genre_ids, genres)}
-                  </Text>
-                </Text>
-              ) : (
-                <></>
-              )}
-            </Stack>
+
+            <MovieCardInfo data={data} genres={genres} full={full}/>
+
           </Stack>
         </Flex>
       </Paper>

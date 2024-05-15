@@ -4,5 +4,6 @@ export { Layout } from "./Layout";
 export { MovieCard } from "./MovieCard";
 export { Filters } from "./Filters";
 export { RatingModal } from "./RatingModal";
+export { MovieCardInfo } from "./MovieCard/MovieCardInfo";
 
 export { MovieSkeleton } from "./MovieCard/MovieSkeleton";

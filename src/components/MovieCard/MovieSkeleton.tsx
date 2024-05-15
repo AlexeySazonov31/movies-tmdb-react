@@ -1,12 +1,12 @@
 import { Paper, Skeleton, Flex, Stack } from "@mantine/core";
 
-export const MovieSkeleton = () => {
+export const MovieSkeleton = ({ full = false }: { full?: boolean }) => {
   return (
     <Paper p={24}>
       <Flex>
         <Skeleton
-          w={160}
-          h={170}
+          w={full ? 404 : 160}
+          h={full ? 352 : 170}
           style={{
             borderRadius: 0,
           }}
@@ -17,7 +17,16 @@ export const MovieSkeleton = () => {
             <Skeleton w="20%" h={20} />
             <Skeleton w="40%" h={20} />
           </Stack>
-          <Skeleton w="100%" h={25} />
+          <Stack w="50%">
+            {full && (
+              <>
+                <Skeleton h={18} />
+                <Skeleton h={18} />
+                <Skeleton h={18} />
+              </>
+            )}
+            <Skeleton w="100%" h={25} />
+          </Stack>
         </Stack>
       </Flex>
     </Paper>

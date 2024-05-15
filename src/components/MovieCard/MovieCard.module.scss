@@ -14,6 +14,14 @@
     }
 }
 
+.title {
+    font-size: 20px !important;
+    color: var(--mantine-color-purple-5) !important;
+    font-weight: 600 !important;
+    line-height: 26px !important;
+    cursor: default !important;
+}
+
 .ratingBtnIcon {
     padding: 0;
     filter: brightness(0) saturate(100%) invert(97%) sepia(9%) saturate(661%) hue-rotate(181deg) brightness(89%) contrast(92%);
