@@ -9,7 +9,7 @@ export const RouterSwitcher = () => {
       <Route path="/" element={<Layout />}>
         <Route path="" element={<Home />} />
         <Route path="rated" element={<RatedMovies />} />
-        <Route path="movies/:title" element={<FullMovie />} />
+        <Route path="movies/:id" element={<FullMovie />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

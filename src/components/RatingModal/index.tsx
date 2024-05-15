@@ -1,0 +1,168 @@
+import { Dispatch, useState } from "react";
+import { FullMovie, Movie } from "../../types";
+
+import style from "./RatingModal.module.scss";
+
+import {
+  Modal,
+  Divider,
+  Rating,
+  Button,
+  Stack,
+  Text,
+  Image,
+  Group,
+} from "@mantine/core";
+import { filterSvgGray, filterSvgYellow } from "../../constantsAndFunctions";
+
+export const RatingModal = ({
+  data,
+  setRatedMovies,
+  opened,
+  close,
+  rating,
+}: {
+  data: Movie | FullMovie;
+  opened: boolean;
+  close: () => void;
+  rating: number | null;
+  setRatedMovies: Dispatch<(Movie | FullMovie)[] | null>;
+}) => {
+  const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);
+
+  const saveMovieRating = (): void => {
+    // 1 is min for rating
+    let ratingValueForSave: number = ratingValue;
+    if (ratingValue === 0) {
+      setRatingValue(1);
+      ratingValueForSave = 1;
+    }
+
+    const json = localStorage.getItem("ratedMovies");
+    let movies: (Movie | FullMovie)[];
+    // check exist rated movies
+    if (json) {
+      movies = JSON.parse(json);
+      // update rating or save new
+      if (movies.find((elem) => elem.id === data.id)) {
+        const index = movies.findIndex((elem) => elem.id === data.id);
+        movies[index].rating = ratingValueForSave;
+      } else {
+        movies.push({
+          ...data,
+          rating: ratingValueForSave,
+        });
+      }
+    } else {
+      movies = [
+        {
+          ...data,
+          rating: ratingValueForSave,
+        },
+      ];
+    }
+    localStorage.setItem("ratedMovies", JSON.stringify(movies));
+    setRatedMovies(movies);
+    close(); // close modal
+  };
+
+  const removeMovieRating = (): void => {
+    const json = localStorage.getItem("ratedMovies");
+    let movies: Movie[];
+    // check exist rated movies
+    if (json) {
+      movies = JSON.parse(json);
+      const index = movies.findIndex((elem) => elem.id === data.id);
+      movies.splice(index, 1);
+    } else {
+      movies = [];
+    }
+    if (!movies.length) {
+      localStorage.removeItem("ratedMovies");
+      setRatingValue(0);
+      setRatedMovies(null);
+      close(); // close modal
+    } else {
+      localStorage.setItem("ratedMovies", JSON.stringify(movies));
+      setRatingValue(0);
+      setRatedMovies(movies);
+      close(); // close modal
+    }
+  };
+  return (
+    <Modal
+      opened={opened}
+      onClose={close}
+      title="Your rating"
+      overlayProps={{
+        backgroundOpacity: 0.2,
+      }}
+      size={380}
+      classNames={{
+        content: style.modalContent,
+        body: style.modalBody,
+        header: style.modalHeader,
+        close: style.modalClose,
+      }}
+      centered
+    >
+      <Divider />
+      <Stack p={16} gap={16}>
+        <Text fw={600}>{data.title}</Text>
+        <Rating
+          count={10}
+          size="xl"
+          emptySymbol={
+            <Image
+              w={28}
+              h={28}
+              src="/star.svg"
+              alt="rating icon"
+              style={{
+                filter: filterSvgGray,
+              }}
+            />
+          }
+          fullSymbol={
+            <Image
+              w={28}
+              h={28}
+              src="/star.svg"
+              alt="rating icon"
+              style={{
+                filter: filterSvgYellow,
+              }}
+            />
+          }
+          classNames={{
+            root: style.ratingRoot,
+          }}
+          value={ratingValue}
+          onChange={setRatingValue}
+        />
+        <Group gap={16}>
+          <Button
+            classNames={{
+              root: style.modalBtnSaveRoot,
+              inner: style.modalBtnSaveInner,
+            }}
+            onClick={saveMovieRating}
+          >
+            Save
+          </Button>
+          <Button
+            variant="transparent"
+            classNames={{
+              root: style.modalBtnRemoveRoot,
+              inner: style.modalBtnRemoveInner,
+            }}
+            disabled={!rating}
+            onClick={removeMovieRating}
+          >
+            Remove rating
+          </Button>
+        </Group>
+      </Stack>
+    </Modal>
+  );
+};

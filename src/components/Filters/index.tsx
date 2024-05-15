@@ -4,7 +4,7 @@ import {
   sortValues,
   dropdownProps,
   initialFiltersValue,
-} from "../../constants";
+} from "../../constantsAndFunctions";
 
 import {
   Grid,

@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Genre, DataMovies, FiltersValue, SortValue } from "../../types";
-import axios from "axios";
+import { FiltersValue, SortValue, Movie, FullMovie } from "../../types";
 
 import {
   Container,
@@ -15,37 +14,16 @@ import {
 
 import { MovieCard, Filters, MovieSkeleton } from "../../components";
 import { useEffect, useState } from "react";
-import { sortValues, initialFiltersValue } from "../../constants";
+import { sortValues, initialFiltersValue, fetchGenres, fetchMovies, getRatedMovies, getMovieRating } from "../../constantsAndFunctions";
 
-const fetchGenres = (): Promise<Genre[]> =>
-  axios.get("/api/genres").then((response) => response.data.genres);
-
-const fetchMovies = (
-  page: string,
-  sort: string,
-  genres: number[] | [],
-  year: string | null,
-  ratingMin: number | string | null,
-  raitingMax: number | string | null
-): Promise<DataMovies> =>
-  axios
-    .get("/api/movies", {
-      params: {
-        page: page,
-        sort_by: sort,
-        genres: genres,
-        release_year: year,
-        rating_min: ratingMin,
-        rating_max: raitingMax,
-      },
-    })
-    .then((response) => response.data);
 
 export const Home = () => {
+
   const [filtersValue, setFiltersValue] =
     useState<FiltersValue>(initialFiltersValue);
   const [sort, setSort] = useState<SortValue>(sortValues[0].name);
   const [activePage, setActivePage] = useState<number>(1);
+  const [ratedMovies, setRatedMovies] = useState<(Movie | FullMovie)[] | null>(getRatedMovies());
 
   // * get Genres
   const {
@@ -98,7 +76,7 @@ export const Home = () => {
   }, [activePage]);
 
   return (
-    <Container size={980} mt={40} p={0}>
+    <Container size={980} mt={24} p={0}>
       <Text size="32px" fw={700} pb={40}>
         Movies
       </Text>
@@ -114,7 +92,7 @@ export const Home = () => {
         {isFetchingMovies &&
           [...Array(20)].map((elem, key) => {
             return (
-              <Grid.Col key={key} span={{ base: 6 }}>
+              <Grid.Col key={key} span={{ base: 12, md: 6, lg: 6 }}>
                 <MovieSkeleton />
               </Grid.Col>
             );
@@ -123,11 +101,17 @@ export const Home = () => {
           ? dataMovies?.results.map((elem) => {
               return (
                 <Grid.Col key={elem.id} span={{ base: 12, md: 6, lg: 6 }}>
-                  <MovieCard data={elem} genres={dataGenres ? dataGenres : null}/>
+                  <MovieCard
+                    data={elem}
+                    genres={dataGenres ? dataGenres : null}
+                    rating={getMovieRating(elem.id, ratedMovies)}
+                    setRatedMovies={setRatedMovies}
+                  />
                 </Grid.Col>
               );
             })
-          : !isErrorMovies && !isFetchingMovies && (
+          : !isErrorMovies &&
+            !isFetchingMovies && (
               <Grid.Col span={{ base: 12 }}>
                 <Stack justify="flex-start" align="center" h="60vh">
                   <Image src="/no-movies.png" alt="no movies" w={311} h={252} />

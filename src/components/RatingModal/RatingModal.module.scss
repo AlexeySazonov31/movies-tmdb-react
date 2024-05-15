@@ -1,0 +1,81 @@
+
+.modalContent {
+    border-radius: 8px !important;
+
+    .modalBody {
+        padding: 0 !important;
+    }
+
+    .modalHeader {
+        .modalClose {
+            svg {
+                filter: brightness(0) saturate(100%) invert(53%) sepia(9%) saturate(372%) hue-rotate(197deg) brightness(90%) contrast(92%);
+                transition: all 0.1s;
+            }
+
+            &:hover {
+                svg {
+                    filter: brightness(0) saturate(100%) invert(74%) sepia(72%) saturate(2961%) hue-rotate(210deg) brightness(97%) contrast(99%);
+                }
+            }
+
+            &:active {
+                svg {
+                    filter: brightness(0) saturate(100%) invert(35%) sepia(71%) saturate(2586%) hue-rotate(245deg) brightness(100%) contrast(94%);
+                }
+            }
+        }
+    }
+}
+
+.ratingRoot {
+    width: 100% !important;
+    justify-content: space-between !important;
+}
+
+.modalBtnSaveRoot {
+    background-color: var(--mantine-color-purple-5) !important;
+    border-radius: 8px !important;
+    padding: 12px 20px !important;
+
+    .modalBtnSaveInner {
+        color: white !important;
+    }
+
+    &:hover {
+        background-color: var(--mantine-color-purple-4) !important;
+    }
+
+    &:active {
+        background-color: var(--mantine-color-purple-6) !important;
+    }
+
+}
+
+.modalBtnRemoveRoot {
+    padding: 0px !important;
+
+    .modalBtnRemoveInner {
+        font-size: 600;
+        color: var(--mantine-color-purple-5) !important;
+
+        &:hover {
+            color: var(--mantine-color-purple-4) !important;
+        }
+
+        &:active {
+            color: var(--mantine-color-purple-6) !important;
+        }
+    }
+
+    &:disabled,
+    &[data-disabled] {
+        color: rgba(0, 0, 0, 0) !important;
+        background-color: rgba(0, 0, 0, 0) !important;
+
+        .modalBtnRemoveInner {
+            color: var(--mantine-color-gray-6) !important;
+        }
+    }
+
+}
