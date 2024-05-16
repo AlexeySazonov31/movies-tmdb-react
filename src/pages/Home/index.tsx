@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { FiltersValue, SortValue, Movie } from "../../types";
+import { FiltersValue, SortValue, MoviesOrNull } from "../../common/types";
 
 import {
   Container,
@@ -15,20 +15,23 @@ import {
 import { MovieCard, Filters, MovieSkeleton } from "../../components";
 import { useEffect, useState } from "react";
 import {
-  sortValues,
-  initialFiltersValue,
   fetchGenres,
   fetchMovies,
   getRatedMovies,
   getMovieRating,
-} from "../../constantsAndFunctions";
+} from "../../common/utils";
+
+import {
+  sortValues,
+  initialFiltersValue,
+} from "../../common/constants";
 
 export const Home = () => {
   const [filtersValue, setFiltersValue] =
     useState<FiltersValue>(initialFiltersValue);
   const [sort, setSort] = useState<SortValue>(sortValues[0].name);
   const [activePage, setActivePage] = useState<number>(1);
-  const [ratedMovies, setRatedMovies] = useState<Movie[] | null>(
+  const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
 
@@ -83,7 +86,7 @@ export const Home = () => {
 
   return (
     <Container size={980} mt={24} p={0} mih="80vh">
-      <Text size="32px" fw={700} pb={40}>
+      <Text size="32px" fw={700} mb={40} py={8}>
         Movies
       </Text>
       <Filters

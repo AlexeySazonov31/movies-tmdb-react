@@ -1,5 +1,5 @@
 import { Dispatch, useState } from "react";
-import { Movie } from "../../types";
+import { Movie, MoviesOrNull } from "../../common/types";
 
 import style from "./RatingModal.module.scss";
 
@@ -13,7 +13,7 @@ import {
   Image,
   Group,
 } from "@mantine/core";
-import { filterSvgGray, filterSvgYellow } from "../../constantsAndFunctions";
+import { filterSvgGray, filterSvgYellow } from "../../common/constants";
 
 export const RatingModal = ({
   data,
@@ -24,10 +24,10 @@ export const RatingModal = ({
   full,
 }: {
   data: Movie;
+  setRatedMovies: Dispatch<MoviesOrNull>;
   opened: boolean;
   close: () => void;
   rating: number | null;
-  setRatedMovies: Dispatch<Movie[] | null>;
   full: boolean;
 }) => {
   const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);

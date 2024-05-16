@@ -1,10 +1,10 @@
-import { ResetBtnProps, FiltersProps } from "../../types";
+import { ResetBtnProps, FiltersProps } from "../../common/types";
 import {
   years,
   sortValues,
   dropdownProps,
   initialFiltersValue,
-} from "../../constantsAndFunctions";
+} from "../../common/constants";
 
 import {
   Grid,
@@ -41,7 +41,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
   return (
     <>
       <Grid align="flex-end" gutter="16px" columns={10.13}>
-        <Grid.Col span={{ base: 10, sm: 5, md: 2.5, lg: 3 }}>
+        <Grid.Col span={{ base: 10, sm: 5, md: 2.75, lg: 3 }}>
           <MultiSelect
             size="md"
             comboboxProps={dropdownProps}
@@ -58,7 +58,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
             data={props.dataGenres?.map((elem) => elem.name)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 10, sm: 5, md: 2.5, lg: 3 }}>
+        <Grid.Col span={{ base: 10, sm: 5, md: 2.75, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}
@@ -74,7 +74,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
             data={years}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 10, sm: 5, md: 3.5, lg: 3 }}>
+        <Grid.Col span={{ base: 10, sm: 5, md: 3, lg: 3 }}>
           <Grid align="flex-end" gutter="8px">
             <Grid.Col span={{ base: 6 }}>
               <NumberInput
@@ -125,7 +125,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
         </Grid.Col>
       </Grid>
       <Grid align="flex-end" justify="end" gutter="16px" columns={10} my={24}>
-        <Grid.Col span={{ base: 10, sm: 6, md: 2.5, lg: 3 }}>
+        <Grid.Col span={{ base: 10, sm: 6, md: 2.75, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}

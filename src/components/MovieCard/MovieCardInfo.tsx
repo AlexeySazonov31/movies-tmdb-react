@@ -2,8 +2,8 @@ import {
   dateConvert,
   genresIdsToStringNames,
   timeConvert,
-} from "../../constantsAndFunctions";
-import { Genre, Movie } from "../../types";
+} from "../../common/utils";
+import { Genre, Movie } from "../../common/types";
 import { Group, Stack, Text, NumberFormatter } from "@mantine/core";
 
 export const MovieCardInfo = ({
@@ -45,7 +45,7 @@ export const MovieCardInfo = ({
           <></>
         )}
         {full && data.revenue ? (
-          <Text span c="gray.6">
+          <Text span c="gray.6" miw={120}>
             Gross worldwide
           </Text>
         ) : (
@@ -68,7 +68,7 @@ export const MovieCardInfo = ({
           <></>
         )}
         {full && data.release_date ? (
-          <Text span c="black">
+          <Text span c="black" lineClamp={1}>
             {dateConvert(data.release_date)}
           </Text>
         ) : (

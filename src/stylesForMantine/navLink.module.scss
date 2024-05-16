@@ -1,0 +1,22 @@
+.root {
+    color: black !important;
+    border-radius: 8px !important;
+    background-color: transparent !important;
+    transition: all 0.1s !important;
+    padding: 10px !important;
+    &:hover:not([data-active="true"]) {
+        color: var(--mantine-color-purple-4) !important;
+    }
+    &[data-active="true"] {
+        background-color: var(--mantine-color-purple-2) !important;
+        color: var(--mantine-color-purple-5) !important;
+        font-weight: 600;
+        &:active {
+            color: var(--mantine-color-purple-5) !important;
+        }
+    }
+
+}
+.label {
+    font-size: 16px !important;
+}

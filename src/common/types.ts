@@ -38,6 +38,9 @@ export interface FiltersProps {
     dataGenres: Genre[] | null;
 }
 
+export interface Search { value: string; error: boolean }
+
+export type MoviesOrNull = Movie[] | null;
 
 // * Full Movie start
 
@@ -99,11 +102,11 @@ interface SpokenLanguage {
     name: string
 }
 
-interface Videos {
-    results: Result[]
+export interface Videos {
+    results: Video[]
 }
 
-export interface Result {
+export interface Video {
     iso_639_1: string
     iso_3166_1: string
     name: string

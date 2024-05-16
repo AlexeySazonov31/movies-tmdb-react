@@ -12,17 +12,17 @@ import {
   fetchMovie,
   getMovieRating,
   getRatedMovies,
-} from "../../constantsAndFunctions";
+} from "../../common/utils";
 import { useQuery } from "@tanstack/react-query";
 import { MovieCard, MovieSkeleton } from "../../components";
-import { Movie } from "../../types";
+import { MoviesOrNull } from "../../common/types";
 import { useEffect, useState } from "react";
 import { FullMovieInfo } from "./FullMovieInfo";
 import { SkeletonFullMovieInfo } from "./SkeletonFullMovieInfo";
 
 export const FullMovie = () => {
   const { id } = useParams();
-  const [ratedMovies, setRatedMovies] = useState<Movie[] | null>(
+  const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
 

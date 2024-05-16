@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
+import { MoviesOrNull, Search } from "../../common/types";
+import { initialSearch } from "../../common/constants";
 import {
   fetchGenres,
   getMovieRating,
   getRatedMovies,
-} from "../../constantsAndFunctions";
-import { Movie } from "../../types";
-import { useQuery } from "@tanstack/react-query";
+  getShowMovieList,
+  searchInRatedMovies,
+} from "../../common/utils";
+import { MovieCard } from "../../components";
+
 import {
   Button,
   Container,
@@ -18,39 +24,19 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { MovieCard } from "../../components";
-import { Link } from "react-router-dom";
 
 import style from "./RatedMovies.module.scss";
-
 import SearchSvg from "/search.svg";
 
 export const RatedMovies = () => {
   const [activePage, setActivePage] = useState<number>(1);
-  const [ratedMovies, setRatedMovies] = useState<Movie[] | null>(
+  const [search, setSearch] = useState<Search>(initialSearch);
+  const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [searchError, setSearchError] = useState<boolean>(false);
 
-  // ge list of 4 movies to show
-  let showMovieList: Movie[] | null;
-  if (ratedMovies) {
-    if (ratedMovies.length > 4) {
-      if (activePage === 1) {
-        showMovieList = ratedMovies.slice(0, 4);
-      } else {
-        showMovieList = ratedMovies.slice(
-          (activePage - 1) * 4,
-          (activePage - 1) * 4 + 4
-        );
-      }
-    } else {
-      showMovieList = ratedMovies;
-    }
-  } else {
-    showMovieList = null;
-  }
+  // * get list of 4 movies to show
+  const showMovieList: MoviesOrNull = getShowMovieList(ratedMovies, activePage);
 
   // * get Genres
   const {
@@ -63,51 +49,37 @@ export const RatedMovies = () => {
     retry: false,
   });
 
+  // in console, we explain what the problem is,
+  // and the user will see cards without genres - that's offline mode ))
   if (isErrorGenres) {
     console.log(errorGenres.message);
   }
+
+  const handleSearch = (): void => {
+    if (search.value) {
+      const searchedMovies = searchInRatedMovies(search.value);
+      if (searchedMovies) {
+        setRatedMovies(searchedMovies);
+      } else {
+        setRatedMovies(getRatedMovies());
+        setSearch({ ...search, error: true });
+      }
+      setActivePage(1);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [activePage]);
 
   useEffect(() => {
-    if (!searchValue) {
+    if (!search.value) {
       setRatedMovies(getRatedMovies());
     }
-  }, [searchValue]);
-
-  const handleSearch = (): void => {
-    if (searchValue) {
-      const searchedMovies = searchInRatedMovies(searchValue);
-      if (searchedMovies) {
-        setRatedMovies(searchedMovies);
-      } else {
-        setRatedMovies(getRatedMovies());
-        setSearchError(true);
-      }
-      setActivePage(1);
-    }
-  };
-
-  const iconSearch = <Image src={SearchSvg} alt="search icon" />;
-  const buttonSearch = (
-    <Button
-      fw={600}
-      size="32px"
-      w={88}
-      classNames={{
-        root: style.root,
-        inner: style.inner,
-      }}
-      onClick={handleSearch}
-    >
-      Search
-    </Button>
-  );
+  }, [search.value]);
 
   return (
-    <Container size={980} p={0}>
+    <Container size={980} mt={24} p={0} mih="80vh">
       {ratedMovies?.length && showMovieList ? (
         <>
           <Group
@@ -115,29 +87,40 @@ export const RatedMovies = () => {
             justify="space-between"
             align="center"
             pb={40}
-            mt={20}
           >
             <Text size="32px" fw={700}>
               Rated movies
             </Text>
             <TextInput
               placeholder="Search movie title"
-              size="48px"
+              size="47px"
               leftSectionPointerEvents="none"
-              leftSection={iconSearch}
-              rightSection={buttonSearch}
               w={"50%"}
-              value={searchValue}
-              error={searchError ? "No results" : false}
+              value={search.value}
+              error={search.error ? "No results" : false}
               onChange={(e) => {
-                setSearchValue(e.currentTarget.value);
-                setSearchError(false);
+                setSearch({ value: e.currentTarget.value, error: false });
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleSearch();
                 }
               }}
+              leftSection={<Image src={SearchSvg} alt="search icon" />}
+              rightSection={
+                <Button
+                  fw={600}
+                  size="32px"
+                  w={88}
+                  classNames={{
+                    root: style.root,
+                    inner: style.inner,
+                  }}
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              }
             />
           </Group>
           <Grid justify="center" h={{ base: "auto", md: "468px" }}>
@@ -188,29 +171,3 @@ export const RatedMovies = () => {
     </Container>
   );
 };
-
-function searchInRatedMovies(string: string): Movie[] | null {
-  const ratedMoviesJson: string | null = localStorage.getItem("ratedMovies");
-  let ratedMovies: Movie[] | null;
-
-  if (ratedMoviesJson) {
-    ratedMovies = JSON.parse(ratedMoviesJson);
-  } else {
-    ratedMovies = null;
-  }
-  if (ratedMovies) {
-    const searchedMovies: Movie[] = [];
-    for (const elem of ratedMovies) {
-      if (elem.title.toLowerCase().search(string.toLowerCase()) !== -1) {
-        searchedMovies.push(elem);
-      }
-    }
-    if (searchedMovies.length) {
-      return searchedMovies;
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
-}

@@ -1,4 +1,4 @@
-import { Movie } from "../../types";
+import { Movie } from "../../common/types";
 import {
   Paper,
   Stack,
@@ -12,6 +12,7 @@ import {
 import YouTube, { YouTubeProps } from "react-youtube";
 import style from "./FullMovie.module.scss";
 import { useState } from "react";
+import { getTheBestVideo } from "../../common/utils";
 
 export const FullMovieInfo = ({ data }: { data: Movie }) => {
   const [isYoutubeLoaded, setIsYoutubeLoaded] = useState<boolean>(false);
@@ -31,7 +32,7 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
             </Text>
             <YouTube
               iframeClassName={style.youtube}
-              videoId={data?.videos?.results[0].key}
+              videoId={getTheBestVideo(data.videos.results)}
               opts={opts}
               onReady={() => {
                 setTimeout(() => {
@@ -105,3 +106,4 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
     </Paper>
   );
 };
+

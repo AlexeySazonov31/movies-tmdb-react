@@ -13,13 +13,14 @@ import {
   Text,
 } from "@mantine/core";
 
-import { Genre, Movie } from "../../types";
+import { Genre, Movie, MoviesOrNull } from "../../common/types";
 
 import style from "./MovieCard.module.scss";
-import { abbrNum, filterSvgYellow } from "../../constantsAndFunctions";
+import { filterSvgYellow } from "../../common/constants";
 
 import { RatingModal } from "../RatingModal";
 import { MovieCardInfo } from "./MovieCardInfo";
+import { abbrNum } from "../../common/utils";
 
 export const MovieCard = ({
   data,
@@ -31,7 +32,7 @@ export const MovieCard = ({
   data: Movie;
   genres: Genre[] | null | undefined;
   rating: number | null;
-  setRatedMovies: Dispatch<Movie[] | null>;
+  setRatedMovies: Dispatch<MoviesOrNull>;
   full?: boolean;
 }) => {
   const [isImageLoad, setIsImageLoad] = useState<boolean>(false);
@@ -47,7 +48,7 @@ export const MovieCard = ({
         rating={rating}
         full={full ? full : false}
       />
-      <Paper p={24}>
+      <Paper p={{base: 10, xs: 20, sm: 24}}>
         <Flex wrap="nowrap">
           {/* image block start */}
           {!isImageLoad && data.poster_path && (
@@ -80,6 +81,7 @@ export const MovieCard = ({
               justify="space-between"
               align="flex-start"
               wrap="nowrap"
+              gap={10}
             >
               <Stack align="flex-start" justify="flex-start" gap={6}>
                 {full ? (
