@@ -75,14 +75,14 @@ export const Home = () => {
 
   useEffect(() => {
     setActivePage(1);
-  }, [filtersValue]);
+  }, [filtersValue, sort]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [activePage]);
 
   return (
-    <Container size={980} mt={24} p={0}>
+    <Container size={980} mt={24} p={0} mih="80vh">
       <Text size="32px" fw={700} pb={40}>
         Movies
       </Text>
@@ -119,7 +119,7 @@ export const Home = () => {
           : !isErrorMovies &&
             !isFetchingMovies && (
               <Grid.Col span={{ base: 12 }}>
-                <Stack justify="flex-start" align="center" h="60vh">
+                <Stack justify="flex-start" align="center">
                   <Image src="/no-movies.png" alt="no movies" w={311} h={252} />
                   <Text size="20" fw={600} mt={16} lh={1.3} ta="center">
                     We don't have such movies, look for another one

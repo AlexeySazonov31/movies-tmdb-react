@@ -21,12 +21,14 @@ export const RatingModal = ({
   opened,
   close,
   rating,
+  full,
 }: {
   data: Movie;
   opened: boolean;
   close: () => void;
   rating: number | null;
   setRatedMovies: Dispatch<Movie[] | null>;
+  full: boolean;
 }) => {
   const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);
 
@@ -51,6 +53,9 @@ export const RatingModal = ({
         movies.push({
           ...data,
           rating: ratingValueForSave,
+          genre_ids: full // because fullMovieData haven't genre_ids, in movieCard component is used exactly genre_ids
+            ? data.genres?.map((elem) => elem.id)
+            : data.genre_ids,
         });
       }
     } else {
@@ -58,6 +63,9 @@ export const RatingModal = ({
         {
           ...data,
           rating: ratingValueForSave,
+          genre_ids: full // because fullMovieData haven't genre_ids, in movieCard component is used exactly genre_ids
+            ? data.genres?.map((elem) => elem.id)
+            : data.genre_ids,
         },
       ];
     }
@@ -108,7 +116,7 @@ export const RatingModal = ({
     >
       <Divider />
       <Stack p={16} gap={16}>
-        <Text fw={600}>{data.title}</Text>
+        <Text fw={600} h={22}>{data.title}</Text>
         <Rating
           count={10}
           size="xl"
@@ -147,6 +155,7 @@ export const RatingModal = ({
               inner: style.modalBtnSaveInner,
             }}
             onClick={saveMovieRating}
+            h={40}
           >
             Save
           </Button>

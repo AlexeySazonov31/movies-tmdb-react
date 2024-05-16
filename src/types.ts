@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, RefObject } from "react";
 
 export interface ResetBtnProps {
     onClick: () => void;
@@ -25,6 +25,9 @@ export interface FiltersValue {
 }
 
 export type SortValue = string | null;
+
+export type RefContext = RefObject<HTMLElement> | null;
+
 
 export interface FiltersProps {
     filtersValue: FiltersValue;

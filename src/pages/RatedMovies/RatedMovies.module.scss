@@ -1,0 +1,18 @@
+.root {
+    background-color: var(--mantine-color-purple-5) !important;
+    border-radius: 8px !important;
+    padding: 12px 20px !important;
+
+    .inner {
+        color: white !important;
+    }
+
+    &:hover {
+        background-color: var(--mantine-color-purple-4) !important;
+    }
+
+    &:active {
+        background-color: var(--mantine-color-purple-6) !important;
+    }
+
+}

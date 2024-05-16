@@ -1,10 +1,4 @@
-import {
-  AppShell,
-  Text,
-  Group,
-  Image,
-  NavLink,
-} from "@mantine/core";
+import { AppShell, Text, Group, Image, NavLink } from "@mantine/core";
 import { useLocation, Link } from "react-router-dom";
 import icon from "/icon-navbar.svg";
 import style from "./Navbar.module.scss";
@@ -16,7 +10,7 @@ export const Navbar = () => {
     <AppShell.Navbar className={style.root}>
       <Group mb={80}>
         <Image className={style.icon} src={icon} alt="Icon ArrowFlicks" />
-        <Text className={style.logoText}>
+        <Text span className={style.logoText}>
           ArrowFlicks
         </Text>
       </Group>

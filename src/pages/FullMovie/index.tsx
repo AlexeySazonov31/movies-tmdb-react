@@ -77,12 +77,15 @@ export const FullMovie = () => {
             </Center>
           )
         )}
-        {(data?.videos?.results.length && data.videos.results[0].key) ||
+        {data?.videos?.results.length ||
         data?.overview ||
         data?.production_companies?.length ? (
           <FullMovieInfo data={data} />
+        ) : !isErrorMovie &&
+          isFetchingMovie ? (
+          <SkeletonFullMovieInfo />
         ) : (
-          !isErrorMovie && <SkeletonFullMovieInfo />
+          <></>
         )}
       </Stack>
     </Container>

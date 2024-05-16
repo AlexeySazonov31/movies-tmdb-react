@@ -26,7 +26,7 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
       <Stack gap={20}>
         {data?.videos?.results.length && data.videos.results[0].key ? (
           <>
-            <Text fw={600} size="20px">
+            <Text fw={600} size="20px" component="h3">
               Trailer
             </Text>
             <YouTube
@@ -36,7 +36,7 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
               onReady={() => {
                 setTimeout(() => {
                   setIsYoutubeLoaded(true);
-                }, 400);
+                }, 300);
               }}
               style={{
                 display: isYoutubeLoaded ? "block" : "none",
@@ -57,7 +57,7 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
         {data?.overview ? (
           <>
             <Box>
-              <Text fw={600} size="20px">
+              <Text fw={600} size="20px" component="h2">
                 Description
               </Text>
               <Text mt={16}>{data.overview}</Text>
@@ -73,7 +73,7 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
         )}
         {data?.production_companies?.length ? (
           <Box>
-            <Text fw={600} size="20px" mb={20}>
+            <Text fw={600} size="20px" mb={20} component="h3">
               Production
             </Text>
             <Stack gap={12}>

@@ -16,10 +16,7 @@ import {
 import { Genre, Movie } from "../../types";
 
 import style from "./MovieCard.module.scss";
-import {
-  abbrNum,
-  filterSvgYellow,
-} from "../../constantsAndFunctions";
+import { abbrNum, filterSvgYellow } from "../../constantsAndFunctions";
 
 import { RatingModal } from "../RatingModal";
 import { MovieCardInfo } from "./MovieCardInfo";
@@ -48,6 +45,7 @@ export const MovieCard = ({
         opened={opened}
         close={close}
         rating={rating}
+        full={full ? full : false}
       />
       <Paper p={24}>
         <Flex wrap="nowrap">
@@ -84,20 +82,26 @@ export const MovieCard = ({
               wrap="nowrap"
             >
               <Stack align="flex-start" justify="flex-start" gap={6}>
-                <Text
-                  classNames={{ root: full ? style.title : style.titleLink }}
-                  component={Link}
-                  to={`/movies/${data.id}`}
-                >
-                  {data.title}
-                </Text>
+                {full ? (
+                  <Text classNames={{ root: style.title }} component="h1">{data.title}</Text>
+                ) : (
+                  <Text
+                    classNames={{ root: style.titleLink }}
+                    component={Link}
+                    to={`/movies/${data.id}`}
+                    lineClamp={2}
+                  >
+                    {data.title}
+                  </Text>
+                )}
+
                 {data.release_date && (
-                  <Text c="gray.6">
+                  <Text span c="gray.6">
                     {new Date(data.release_date).getFullYear()}
                   </Text>
                 )}
                 {data.vote_count > 0 && (
-                  <Group gap={6}>
+                  <Group gap={6} wrap="nowrap">
                     <Image
                       w={28}
                       h={28}
@@ -149,8 +153,7 @@ export const MovieCard = ({
               </Group>
             </Group>
 
-            <MovieCardInfo data={data} genres={genres} full={full}/>
-
+            <MovieCardInfo data={data} genres={genres} full={full} />
           </Stack>
         </Flex>
       </Paper>

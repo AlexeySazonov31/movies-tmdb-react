@@ -23,36 +23,66 @@ export const MovieCardInfo = ({
       gap={full ? 25 : 7}
     >
       <Stack align="flex-start" justify="flex-start" gap={7}>
-        {full && data.runtime ? <Text c="gray.6">Duration</Text> : <></>}
-        {full && data.release_date ? <Text c="gray.6">Premiere</Text> : <></>}
-        {full && data.budget ? <Text c="gray.6">Budget</Text> : <></>}
-        {full && data.revenue ? <Text c="gray.6">Gross worldwide</Text> : <></>}
+        {full && data.runtime ? (
+          <Text span c="gray.6">
+            Duration
+          </Text>
+        ) : (
+          <></>
+        )}
+        {full && data.release_date ? (
+          <Text span c="gray.6">
+            Premiere
+          </Text>
+        ) : (
+          <></>
+        )}
+        {full && data.budget ? (
+          <Text span c="gray.6">
+            Budget
+          </Text>
+        ) : (
+          <></>
+        )}
+        {full && data.revenue ? (
+          <Text span c="gray.6">
+            Gross worldwide
+          </Text>
+        ) : (
+          <></>
+        )}
         {data.genre_ids?.length && genres?.length ? (
-          <Text c="gray.6">Genres</Text>
+          <Text span c="gray.6">
+            Genres
+          </Text>
         ) : (
           <></>
         )}
       </Stack>
       <Stack align="flex-start" justify="flex-start" gap={7}>
         {full && data.runtime ? (
-          <Text c="black">{timeConvert(data.runtime)}</Text>
+          <Text span c="black">
+            {timeConvert(data.runtime)}
+          </Text>
         ) : (
           <></>
         )}
         {full && data.release_date ? (
-          <Text c="black">{dateConvert(data.release_date)}</Text>
+          <Text span c="black">
+            {dateConvert(data.release_date)}
+          </Text>
         ) : (
           <></>
         )}
         {full && data.budget ? (
-          <Text c="black">
+          <Text span c="black">
             <NumberFormatter prefix="$" value={data.budget} thousandSeparator />
           </Text>
         ) : (
           <></>
         )}
         {full && data.revenue ? (
-          <Text c="black">
+          <Text span c="black">
             <NumberFormatter
               prefix="$"
               value={data.revenue}
@@ -63,8 +93,8 @@ export const MovieCardInfo = ({
           <></>
         )}
         {data.genre_ids?.length && genres?.length ? (
-          <Text c="black">
-            {genresIdsToStringNames(data.genre_ids, genres, full)}
+          <Text span c="black" lineClamp={1}>
+            {genresIdsToStringNames(data.genre_ids, genres)}
           </Text>
         ) : (
           <></>

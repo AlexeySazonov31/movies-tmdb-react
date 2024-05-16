@@ -96,21 +96,12 @@ export function abbrNum(number: number | string, decPlaces: number) {
 export function genresIdsToStringNames(
   arrIds: number[],
   genresArr: Genre[] | null,
-  fullCard: boolean
 ): string {
   if (arrIds.length && genresArr?.length) {
     const arrNames = arrIds.map((id) => {
       const name = genresArr.find((genre) => id === genre.id)?.name;
       return name;
     });
-    if (arrNames.length > 3 && !fullCard) {
-      arrNames.splice(3);
-    }
-    if ((arrNames.join(", ")).length > 30 && !fullCard) {
-      arrNames.splice(2);
-      arrNames.push("...");
-    }
-
     return arrNames.join(", ");
   } else {
     return "error";

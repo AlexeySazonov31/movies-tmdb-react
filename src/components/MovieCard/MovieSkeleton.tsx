@@ -6,26 +6,27 @@ export const MovieSkeleton = ({ full = false }: { full?: boolean }) => {
       <Flex>
         <Skeleton
           w={full ? 404 : 160}
-          h={full ? 352 : 170}
+          h={full ? 372 : 170}
           style={{
             borderRadius: 0,
           }}
         />
         <Stack ml={16} w="100%" justify="space-between">
-          <Stack w="100%">
-            <Skeleton h={25} w="70%" />
-            <Skeleton w="20%" h={20} />
-            <Skeleton w="40%" h={20} />
+          <Stack w="100%" gap={10}>
+            <Skeleton w="70%" h={25} />
+            <Skeleton w="10%" h={16} />
+            <Skeleton w="25%" h={25} />
           </Stack>
-          <Stack w="50%">
+          <Stack w="80%" gap={16}>
             {full && (
               <>
-                <Skeleton h={18} />
-                <Skeleton h={18} />
-                <Skeleton h={18} />
+                <Skeleton w="55%" h={16} />
+                <Skeleton w="63%" h={16} />
+                <Skeleton w="65%" h={16} />
+                <Skeleton w="68%" h={16} />
               </>
             )}
-            <Skeleton w="100%" h={25} />
+            <Skeleton h={16} />
           </Stack>
         </Stack>
       </Flex>

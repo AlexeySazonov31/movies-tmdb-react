@@ -15,7 +15,7 @@ export const Layout = () => {
       padding="md"
     >
       <Navbar />
-      <AppShell.Main bg="gray.1" pb={100}>
+      <AppShell.Main pb="10vh" bg="gray.1">
         <Outlet />
       </AppShell.Main>
     </AppShell>
