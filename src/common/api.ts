@@ -4,11 +4,19 @@ import { DataMovies, FiltersValue, Genre, Movie, SortValue } from "./types";
 import { sortValues } from "./constants";
 
 
-export function useGenres (){
-    return useQuery({ queryKey: ['genres'], queryFn: fetchGenres, retry: false, })
+export function useGenres() {
+    return useQuery({
+        queryKey: ['genres'],
+        queryFn: fetchGenres,
+        retry: false,
+        placeholderData: keepPreviousData,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 1000 * 60 * 60,
+    })
 }
 
-export function useMovies (activePage: number, sort: SortValue, filtersValue: FiltersValue, genresIdsArr: number[] | []){
+export function useMovies(activePage: number, sort: SortValue, filtersValue: FiltersValue, genresIdsArr: number[] | []) {
     return useQuery({
         queryKey: ["movies", activePage, sort, filtersValue],
         queryFn: () =>
@@ -21,14 +29,19 @@ export function useMovies (activePage: number, sort: SortValue, filtersValue: Fi
                 filtersValue.ratingMax ? filtersValue.ratingMax : null
             ),
         placeholderData: keepPreviousData,
-        refetchOnWindowFocus: true,
+        refetchOnWindowFocus: false,
         refetchOnMount: false,
         staleTime: 1000 * 60 * 5,
     })
 }
-    
-export function useMovie(id: string | undefined){
-       return useQuery({ queryKey: ['movie', id], queryFn: () => fetchMovie(id ? id : "error") })
+
+export function useMovie(id: string | undefined) {
+    return useQuery({
+        queryKey: ['movie', id], queryFn: () => fetchMovie(id ? id : "error"),
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 1000 * 60 * 60,
+    })
 }
 
 
