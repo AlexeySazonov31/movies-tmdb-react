@@ -23,10 +23,12 @@ import {
   Stack,
   Text,
   TextInput,
+  em,
 } from "@mantine/core";
 
 import style from "./RatedMovies.module.scss";
 import SearchSvg from "/search.svg";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const RatedMovies = () => {
   const [activePage, setActivePage] = useState<number>(1);
@@ -34,6 +36,8 @@ export const RatedMovies = () => {
   const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
+
+  const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
 
   // * get list of 4 movies to show
   const showMovieList: MoviesOrNull = getShowMovieList(ratedMovies, activePage);
@@ -79,11 +83,11 @@ export const RatedMovies = () => {
   }, [search.value]);
 
   return (
-    <Container size={980} mt={24} p={0} mih="80vh">
+    <Container size={980} pt={40} p={0} mih="80vh">
       {ratedMovies?.length && showMovieList ? (
         <>
           <Group
-            wrap="nowrap"
+            wrap={ isMobile ? "wrap" : "nowrap"}
             justify="space-between"
             align="center"
             pb={40}
@@ -95,7 +99,8 @@ export const RatedMovies = () => {
               placeholder="Search movie title"
               size="47px"
               leftSectionPointerEvents="none"
-              w={"50%"}
+              w={isMobile ? "100%" : "50%"}
+              mt={{base: 15, sm: 0}}
               value={search.value}
               error={search.error ? "No results" : false}
               onChange={(e) => {
@@ -110,7 +115,7 @@ export const RatedMovies = () => {
               rightSection={
                 <Button
                   fw={600}
-                  size="32px"
+                  size="14px"
                   w={88}
                   classNames={{
                     root: style.root,
@@ -126,7 +131,7 @@ export const RatedMovies = () => {
           <Grid justify="center" h={{ base: "auto", md: "468px" }}>
             {showMovieList.map((elem) => {
               return (
-                <Grid.Col key={elem.id} span={{ base: 12, md: 6, lg: 6 }}>
+                <Grid.Col key={elem.id} span={{ base: 12, xs: 12,sm: 12, md: 6, lg: 6 }}>
                   <MovieCard
                     data={elem}
                     genres={dataGenres ? dataGenres : null}
@@ -143,6 +148,9 @@ export const RatedMovies = () => {
                 value={activePage}
                 onChange={setActivePage}
                 total={Math.ceil(ratedMovies.length / 4)}
+
+                siblings={1}
+                boundaries={0}
               />
             </Group>
           ) : (

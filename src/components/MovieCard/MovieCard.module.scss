@@ -23,6 +23,12 @@
 }
 
 .ratingBtnIcon {
+    height: 32px !important;
+    span {
+        height: 28px !important;
+    }
+
+
     padding: 0;
     filter: brightness(0) saturate(100%) invert(97%) sepia(9%) saturate(661%) hue-rotate(181deg) brightness(89%) contrast(92%);
     transition: all 0.2s;
@@ -37,6 +43,12 @@
 }
 
 .ratingBtnIconRated {
+    height: 32px !important;
+
+    span {
+        height: 28px !important;
+    }
+
     padding: 0;
     overflow: visible !important;
     filter: brightness(0) saturate(100%) invert(35%) sepia(49%) saturate(2342%) hue-rotate(244deg) brightness(99%) contrast(94%);

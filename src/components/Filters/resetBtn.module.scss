@@ -5,12 +5,11 @@
     color: var(--mantine-color-purple-5) !important;
     font-weight: 500;
     height: 42px;
-    width: fit-content;
-    text-align: end;
     transition: all 0.1s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    //without icon: +
+    width: 100% !important;
+    text-align: end !important;
 
     img {
         margin-left: 4px;

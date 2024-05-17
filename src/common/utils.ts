@@ -29,7 +29,7 @@ export const fetchMovies = (
 export const fetchMovie = (
     id: string
 ): Promise<Movie> =>
-    axios.get(`/api/movie/${id}`).then(response => response.data)
+    axios.get(`/api/movies/${id}`).then(response => response.data)
 
 
 
@@ -94,7 +94,7 @@ export function timeConvert(n: number): string {
     const minutes = (hours - rhours) * 60;
     let rminutes: string | number = Math.round(minutes);
     rminutes = String(rminutes).length === 1 ? "0" + rminutes : rminutes;
-    if(rhours === 0){
+    if (rhours === 0) {
         return rminutes + "m";
     } else {
         return rhours + "h " + rminutes + "m";
@@ -153,14 +153,23 @@ export function getShowMovieList(ratedMovies: MoviesOrNull, activePage: number):
 }
 
 export function getTheBestVideo(arrVideos: Video[]): string {
-    let video = arrVideos.find((elem) => {return elem.name === "Official Trailer"});
-    if(video){
-      return video.key;
-    } 
-    video = arrVideos.find((elem) => {return elem.type === "Teaser"});
-    if(video){
-      return video.key;
-    } else {
-      return arrVideos[0].key;
+    let video = arrVideos.find((elem) => { return elem.name === "Official Trailer" });
+    if (video) {
+        return video.key;
     }
-  }
+    video = arrVideos.find((elem) => { return elem.type === "Teaser" });
+    if (video) {
+        return video.key;
+    } else {
+        return arrVideos[0].key;
+    }
+}
+
+export function range(a: number, b: number): string[] {
+    const arr = [];
+    while (a <= b) {
+        arr.push(String(a));
+        a++
+    }
+    return arr;
+}

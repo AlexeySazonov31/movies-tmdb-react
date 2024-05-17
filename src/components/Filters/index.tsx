@@ -1,10 +1,10 @@
 import { ResetBtnProps, FiltersProps } from "../../common/types";
 import {
-  years,
   sortValues,
   dropdownProps,
   initialFiltersValue,
 } from "../../common/constants";
+import { range } from "../../common/utils";
 
 import {
   Grid,
@@ -15,10 +15,12 @@ import {
   Image,
 } from "@mantine/core";
 
+import style from "./resetBtn.module.scss";
+
 import DownSvg from "/down.svg";
-import CloseSvg from "/close.svg";
 const iconDown = <Image src={DownSvg} alt="icon down" h={24} w={24} />;
-const iconClose = <Image src={CloseSvg} alt="icon close" h={16} w={16} />;
+// import CloseSvg from "/close.svg";
+// const iconClose = <Image src={CloseSvg} alt="icon close" h={16} w={16} />;
 
 export const Filters = ({ ...props }: FiltersProps) => {
   const resetFilters = (): void => {
@@ -40,8 +42,8 @@ export const Filters = ({ ...props }: FiltersProps) => {
 
   return (
     <>
-      <Grid align="flex-end" gutter="16px" columns={10.13}>
-        <Grid.Col span={{ base: 10, sm: 5, md: 2.75, lg: 3 }}>
+      <Grid align="flex-end" gutter={{base: "8px", sm: "16px"}} columns={10}>
+        <Grid.Col span={{ base: 5,xs: 3, sm: 3, md: 2.85, lg: 3 }}>
           <MultiSelect
             size="md"
             comboboxProps={dropdownProps}
@@ -58,7 +60,7 @@ export const Filters = ({ ...props }: FiltersProps) => {
             data={props.dataGenres?.map((elem) => elem.name)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 10, sm: 5, md: 2.75, lg: 3 }}>
+        <Grid.Col span={{ base: 5,xs: 3, sm: 3, md: 2.85, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}
@@ -71,10 +73,10 @@ export const Filters = ({ ...props }: FiltersProps) => {
             placeholder="Select release year"
             withScrollArea={false}
             withCheckIcon={false}
-            data={years}
+            data={range(1870, Number(new Date().getFullYear()) + 8).reverse()}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 10, sm: 5, md: 3, lg: 3 }}>
+        <Grid.Col span={{ base: "auto",xs: 4, sm: 4, md: 3, lg: 3 }}>
           <Grid align="flex-end" gutter="8px">
             <Grid.Col span={{ base: 6 }}>
               <NumberInput
@@ -117,15 +119,18 @@ export const Filters = ({ ...props }: FiltersProps) => {
             </Grid.Col>
           </Grid>
         </Grid.Col>
-        <Grid.Col span="content">
-          <UnstyledButton {...resetBtnProps}>
-            <span>Reset filters</span>
-            {iconClose}
+        <Grid.Col
+          span={{base: "content", xs: "content", sm: "content", md: 1.3,lg: 1}}
+        >
+          <UnstyledButton {...resetBtnProps} classNames={{root: style.root}}>
+            Reset filters
+            {/* <span>Reset filters</span> */}
+            {/* {iconClose} */}
           </UnstyledButton>
         </Grid.Col>
       </Grid>
       <Grid align="flex-end" justify="end" gutter="16px" columns={10} my={24}>
-        <Grid.Col span={{ base: 10, sm: 6, md: 2.75, lg: 3 }}>
+        <Grid.Col span={{ base: 6,xs: 4.07, sm: 5, md: 2.75, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}

@@ -18,9 +18,9 @@ export const SkeletonFullMovieInfo = () => {
         <Stack>
           <Skeleton w="30%" h={25} />
           <Stack gap={12}>
-            {[...Array(2)].map((elem, id) => {
+            {[...Array(2).keys()].map((elem) => {
               return (
-                <Group gap={8} key={id}>
+                <Group gap={8} key={elem}>
                   <Skeleton circle h={40} w={40} />
                   <Skeleton w={100} h={20} />
                 </Group>

@@ -1,9 +1,5 @@
 import { ComboboxProps } from "@mantine/core";
 
-export const years: string[] = Array.from({ length: ((new Date()).getFullYear() + 8) - 1870 + 1 }, (n, i) =>
-  String(i + 1870)
-).reverse();
-
 export const sortValues: { name: string, value: string }[] = [
   { name: "Most Popular", value: "popularity.desc", },
   { name: "Least Popular", value: "popularity.asc", },

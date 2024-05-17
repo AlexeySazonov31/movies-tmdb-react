@@ -1,13 +1,20 @@
-import {NavLink, MultiSelect, Select, NumberInput, createTheme, UnstyledButton, Pagination, Anchor, TextInput } from "@mantine/core";
+import {NavLink, MultiSelect, Select, NumberInput, createTheme, Pagination, Anchor, TextInput } from "@mantine/core";
 
 import filtersClasses from "./stylesForMantine/filters.module.scss";
-import resetBtnClasses from "./stylesForMantine/resetBtn.module.scss";
 import paginationClasses from "./stylesForMantine/pagination.module.scss";
 import anchorClasses from "./stylesForMantine/anchor.module.scss";
 import searchClasses from "./stylesForMantine/search.module.scss";
 import navLinkClasses from "./stylesForMantine/navLink.module.scss";
 
 export const theme = createTheme({
+  breakpoints: {
+    ss: '22em',
+    xs: '36em',
+    sm: '48em',
+    md: '62em',
+    lg: '75em',
+    xl: '88em',
+  },
   fontFamily: 'Inter, sans-serif',
   colors: {
     gray: [
@@ -51,7 +58,6 @@ export const theme = createTheme({
     MultiSelect: MultiSelect.extend({ classNames: filtersClasses }),
     Select: Select.extend({ classNames: filtersClasses }),
     NumberInput: NumberInput.extend({ classNames: filtersClasses }),
-    UnstyledButton: UnstyledButton.extend({ classNames: resetBtnClasses }),
     Pagination: Pagination.extend({ classNames: paginationClasses }),
     Anchor: Anchor.extend({ classNames: anchorClasses }),
     TextInput: TextInput.extend({classNames: searchClasses}),

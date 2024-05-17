@@ -2,11 +2,13 @@ import { Paper, Skeleton, Flex, Stack } from "@mantine/core";
 
 export const MovieSkeleton = ({ full = false }: { full?: boolean }) => {
   return (
-    <Paper p={24}>
+    <Paper p={{ base: 10, xs: 20, sm: 24, md: 18, lg: 24 }}>
       <Flex>
         <Skeleton
-          w={full ? 404 : 160}
-          h={full ? 372 : 170}
+          // w={full ? 404 : 160}
+          // h={full ? 372 : 170}
+          w={full ? 404 : {base: 150, xs: 160, sm: 160, md: 140, lg: 160}}
+          h={full ? 372 : {base: 155, xs: 170, sm: 170, md: 150, lg: 170}}
           style={{
             borderRadius: 0,
           }}

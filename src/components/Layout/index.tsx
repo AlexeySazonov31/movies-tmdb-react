@@ -6,7 +6,7 @@ import icon from "/icon-navbar.svg";
 
 export const Layout = () => {
   const [opened, { toggle }] = useDisclosure();
-  const pinned = useHeadroom({ fixedAt: 120 });
+  const pinned = useHeadroom({ fixedAt: 85 });
   const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
 
   return (
@@ -16,7 +16,7 @@ export const Layout = () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened, desktop: false },
       }}
-      padding="md"
+      padding={{base: "xs", xs: "md"}}
       header={{
         height: 85,
         collapsed: isMobile ? (opened ? false : !pinned) : true,
@@ -35,7 +35,7 @@ export const Layout = () => {
         </Group>
       </AppShell.Header>
       <Navbar toggle={toggle} />
-      <AppShell.Main pb="10vh" bg="gray.1" pt={isMobile ? "100px" : "0"}>
+      <AppShell.Main pb="10vh" bg="gray.1" pt={isMobile ? "80px" : "0"}>
         <Outlet />
       </AppShell.Main>
     </AppShell>
