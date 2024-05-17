@@ -12,8 +12,10 @@ import {
   Text,
   Image,
   Group,
+  em,
 } from "@mantine/core";
 import { filterSvgGray, filterSvgYellow } from "../../common/constants";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const RatingModal = ({
   data,
@@ -31,6 +33,8 @@ export const RatingModal = ({
   full: boolean;
 }) => {
   const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);
+  const isSsBreakPoint = useMediaQuery(`(max-width: ${em(350)})`);
+
 
   const saveMovieRating = (): void => {
     // 1 is min for rating
@@ -122,8 +126,8 @@ export const RatingModal = ({
           size="xl"
           emptySymbol={
             <Image
-              w={28}
-              h={28}
+            w={isSsBreakPoint ? 25 : 28}
+            h={isSsBreakPoint ? 25 : 28}
               src="/star.svg"
               alt="rating icon"
               style={{
@@ -133,8 +137,8 @@ export const RatingModal = ({
           }
           fullSymbol={
             <Image
-              w={28}
-              h={28}
+              w={isSsBreakPoint ? 25 : 28}
+              h={isSsBreakPoint ? 25 : 28}
               src="/star.svg"
               alt="rating icon"
               style={{

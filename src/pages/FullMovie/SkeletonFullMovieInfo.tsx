@@ -1,11 +1,18 @@
 import { Paper, Skeleton, Divider, Stack, Group } from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
 
 export const SkeletonFullMovieInfo = () => {
+  const { width } = useViewportSize();
+
   return (
     <Paper p={24}>
       <Stack gap={20}>
         <Skeleton w="30%" h={25} />
-        <Skeleton mt={3} w={500} h={281} />
+        <Skeleton
+          mt={3}
+          w={{ base: "100%", xs: 430, md: 500 }}
+          h={{ base: (width * 9) / 16, xs: 281, md: 240 }}
+        />
         <Divider />
         <Stack>
           <Skeleton w="30%" h={25} />

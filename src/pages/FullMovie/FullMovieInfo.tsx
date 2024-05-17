@@ -8,22 +8,29 @@ import {
   Group,
   Avatar,
   Skeleton,
+  em,
 } from "@mantine/core";
 import YouTube, { YouTubeProps } from "react-youtube";
 import style from "./FullMovie.module.scss";
 import { useState } from "react";
 import { getTheBestVideo } from "../../common/utils";
+import { useMediaQuery, useViewportSize } from "@mantine/hooks";
 
 export const FullMovieInfo = ({ data }: { data: Movie }) => {
   const [isYoutubeLoaded, setIsYoutubeLoaded] = useState<boolean>(false);
 
+  const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
+  const isMdBreakPoint = useMediaQuery(`(max-width: ${em(992)})`);
+
+  const { width } = useViewportSize();
+
   const opts: YouTubeProps["opts"] = {
-    height: "281",
-    width: "500",
+    width:  isMobile ? "100%" : isMdBreakPoint ? "430" : "500",
+    height: isMobile ? (width * 9 / 16) : isMdBreakPoint ? "240" : "281",
   };
 
   return (
-    <Paper p={24}>
+    <Paper p={{base: 15, xs: 24}}>
       <Stack gap={20}>
         {data?.videos?.results.length && data.videos.results[0].key ? (
           <>
@@ -43,7 +50,8 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
                 display: isYoutubeLoaded ? "block" : "none",
               }}
             />
-            {!isYoutubeLoaded ? <Skeleton w={500} h={288} /> : <></>}
+            {!isYoutubeLoaded ? <Skeleton           w={{ base: "100%", xs: 430, md: 500 }}
+          h={{ base: (width * 9) / 16, xs: 281, md: 240 }}/> : <></>}
           </>
         ) : (
           <></>

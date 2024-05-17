@@ -40,6 +40,7 @@ export const MovieCard = ({
   const [opened, { open, close }] = useDisclosure(false); // * modal
 
   const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
+  const isXsBreakPoint = useMediaQuery(`(max-width: ${em(575)})`);
 
   return (
     <>
@@ -51,20 +52,20 @@ export const MovieCard = ({
         rating={rating}
         full={full ? full : false}
       />
-      <Paper p={{ base: 10, xs: 20, sm: 24, md: 18, lg: 24 }}>
-        <Flex wrap="nowrap">
+      <Paper p={ full ? {base: 15, xs: 24} : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }}>
+      <Flex wrap={ isXsBreakPoint && full ? "wrap" : "nowrap"} justify={isXsBreakPoint ? "center" : "space-between"} gap={16}>
           {/* image block start */}
           {!isImageLoad && data.poster_path && (
             <Skeleton
-              w={full ? 352 : 160}
-              h={full ? 352 : { base: 160, xs: 170, sm: 170, md: 150, lg: 170 }}
+              w={full ? {base: "100%", xs: 380, sm: 268, md: 352} : 160}
+              h={full ? {base: 545, xs: 372, sm: 250, md: 375 } : { base: 160, xs: 170, sm: 170, md: 150, lg: 170 }}
               style={{
                 borderRadius: 0,
               }}
             />
           )}
           <Image
-            w={full ? 250 : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }}
+            w={full ? {base: "100%", xs: 230, sm: 170, md: 250} : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }}
             h={
               full ? "auto" : { base: 155, xs: 170, sm: 170, md: 150, lg: 170 }
             }
@@ -80,7 +81,7 @@ export const MovieCard = ({
             }}
           />
           {/* image block end */}
-          <Stack ml={16} w="100%" align="flex-start" justify="space-between">
+          <Stack w="100%" align="flex-start" justify="space-between">
             <Stack align="flex-start" justify="flex-start" gap={2} w="100%">
               <Group
                 w="100%"
@@ -90,7 +91,7 @@ export const MovieCard = ({
                 gap={10}
               >
                 {full ? (
-                  <Text classNames={{ root: style.title }} component="h1">
+                  <Text classNames={{ root: style.title }} component="h1" lineClamp={2}>
                     {data.title}
                   </Text>
                 ) : (

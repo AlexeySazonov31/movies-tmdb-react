@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 import { MoviesOrNull, Search } from "../../common/types";
 import { initialSearch } from "../../common/constants";
 import {
-  fetchGenres,
   getMovieRating,
   getRatedMovies,
   getShowMovieList,
@@ -29,6 +27,7 @@ import {
 import style from "./RatedMovies.module.scss";
 import SearchSvg from "/search.svg";
 import { useMediaQuery } from "@mantine/hooks";
+import { useGenres } from "../../common/api";
 
 export const RatedMovies = () => {
   const [activePage, setActivePage] = useState<number>(1);
@@ -47,11 +46,7 @@ export const RatedMovies = () => {
     isError: isErrorGenres,
     error: errorGenres,
     data: dataGenres,
-  } = useQuery({
-    queryKey: ["genres"],
-    queryFn: fetchGenres,
-    retry: false,
-  });
+  } = useGenres();
 
   // in console, we explain what the problem is,
   // and the user will see cards without genres - that's offline mode ))
@@ -83,11 +78,11 @@ export const RatedMovies = () => {
   }, [search.value]);
 
   return (
-    <Container size={980} pt={40} p={0} mih="80vh">
+    <Container size={980} pt={40} p={0} mih="70vh">
       {ratedMovies?.length && showMovieList ? (
         <>
           <Group
-            wrap={ isMobile ? "wrap" : "nowrap"}
+            wrap={isMobile ? "wrap" : "nowrap"}
             justify="space-between"
             align="center"
             pb={40}
@@ -100,7 +95,7 @@ export const RatedMovies = () => {
               size="47px"
               leftSectionPointerEvents="none"
               w={isMobile ? "100%" : "50%"}
-              mt={{base: 15, sm: 0}}
+              mt={{ base: 15, sm: 0 }}
               value={search.value}
               error={search.error ? "No results" : false}
               onChange={(e) => {
@@ -118,8 +113,8 @@ export const RatedMovies = () => {
                   size="14px"
                   w={88}
                   classNames={{
-                    root: style.root,
-                    inner: style.inner,
+                    root: style.searchRoot,
+                    inner: style.searchInner,
                   }}
                   onClick={handleSearch}
                 >
@@ -131,7 +126,10 @@ export const RatedMovies = () => {
           <Grid justify="center" h={{ base: "auto", md: "468px" }}>
             {showMovieList.map((elem) => {
               return (
-                <Grid.Col key={elem.id} span={{ base: 12, xs: 12,sm: 12, md: 6, lg: 6 }}>
+                <Grid.Col
+                  key={elem.id}
+                  span={{ base: 12, xs: 12, sm: 12, md: 6, lg: 6 }}
+                >
                   <MovieCard
                     data={elem}
                     genres={dataGenres ? dataGenres : null}
@@ -148,7 +146,6 @@ export const RatedMovies = () => {
                 value={activePage}
                 onChange={setActivePage}
                 total={Math.ceil(ratedMovies.length / 4)}
-
                 siblings={1}
                 boundaries={0}
               />
@@ -158,8 +155,18 @@ export const RatedMovies = () => {
           )}
         </>
       ) : (
-        <Stack justify="end" align="center" mih="73vh" gap={16}>
-          <Image src="/no-rated.png" alt="no movies" w={400} />
+        <Stack
+          justify="center"
+          align="center"
+          mih={{ base: "60vh", sm: "80vh" }}
+          gap={16}
+        >
+          <Image
+            src="/no-rated.png"
+            alt="no movies"
+            w={{base: "100%", xs: 400}}
+            pt={{ base: "5vh", xs: "10vh" }}
+          />
           <Text size="20px" fw={600} ta="center">
             You haven't rated any films yet
           </Text>
@@ -168,8 +175,8 @@ export const RatedMovies = () => {
             h={40}
             to="/"
             classNames={{
-              root: style.root,
-              inner: style.inner,
+              root: style.homeBtnToot,
+              inner: style.homeBtnInner,
             }}
           >
             Find movies

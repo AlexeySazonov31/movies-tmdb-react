@@ -9,16 +9,15 @@ import {
 } from "@mantine/core";
 import { Link, useParams } from "react-router-dom";
 import {
-  fetchMovie,
   getMovieRating,
   getRatedMovies,
 } from "../../common/utils";
-import { useQuery } from "@tanstack/react-query";
 import { MovieCard, MovieSkeleton } from "../../components";
 import { MoviesOrNull } from "../../common/types";
 import { useEffect, useState } from "react";
 import { FullMovieInfo } from "./FullMovieInfo";
 import { SkeletonFullMovieInfo } from "./SkeletonFullMovieInfo";
+import { useMovie } from "../../common/api";
 
 export const FullMovie = () => {
   const { id } = useParams();
@@ -32,19 +31,16 @@ export const FullMovie = () => {
     isError: isErrorMovie,
     error: errorMovie,
     data,
-  } = useQuery({
-    queryKey: ["movie", id],
-    queryFn: () => fetchMovie(id ? id : "error"),
-  });
+  } = useMovie(id);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 50);
   }, []);
 
   return (
     <Container size={800} mt={24} p={0}>
       <Stack gap={20}>
-        {isFetchingMovie ? (
+        {isFetchingMovie && !data ? (
           <Skeleton w="50%" h={20} />
         ) : (
           !isErrorMovie && (
@@ -58,7 +54,7 @@ export const FullMovie = () => {
             </Breadcrumbs>
           )
         )}
-        {isFetchingMovie && <MovieSkeleton full={true} />}
+        {isFetchingMovie && !data && <MovieSkeleton full={true} />}
         {data ? (
           <MovieCard
             data={{ ...data, genre_ids: data.genres?.map((elem) => elem.id) }}

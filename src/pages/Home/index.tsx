@@ -1,4 +1,3 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { FiltersValue, SortValue, MoviesOrNull } from "../../common/types";
 
 import {
@@ -15,13 +14,13 @@ import {
 import { MovieCard, Filters, MovieSkeleton } from "../../components";
 import { useEffect, useState } from "react";
 import {
-  fetchGenres,
-  fetchMovies,
   getRatedMovies,
   getMovieRating,
+  getGenresIdsArr,
 } from "../../common/utils";
 
 import { sortValues, initialFiltersValue } from "../../common/constants";
+import { useGenres, useMovies } from "../../common/api";
 
 export const Home = () => {
   const [filtersValue, setFiltersValue] =
@@ -37,11 +36,7 @@ export const Home = () => {
     isError: isErrorGenres,
     error: errorGenres,
     data: dataGenres,
-  } = useQuery({
-    queryKey: ["genres"],
-    queryFn: fetchGenres,
-    retry: false,
-  });
+  } = useGenres();
 
   // * get Movies
   const {
@@ -49,25 +44,12 @@ export const Home = () => {
     isError: isErrorMovies,
     error: errorMovies,
     data: dataMovies,
-  } = useQuery({
-    queryKey: ["movies", activePage, sort, filtersValue],
-    queryFn: () =>
-      fetchMovies(
-        String(activePage),
-        String(sortValues.find((elem) => elem.name === sort)?.value),
-        // * get genres ids Array
-        filtersValue.genres.map((selectedGenre) => {
-          const id = dataGenres?.find(
-            (genre) => selectedGenre === genre.name
-          )?.id;
-          return Number(id);
-        }),
-        filtersValue.year,
-        filtersValue.ratingMin ? filtersValue.ratingMin : null,
-        filtersValue.ratingMax ? filtersValue.ratingMax : null
-      ),
-    placeholderData: keepPreviousData,
-  });
+  } = useMovies(
+    activePage,
+    sort,
+    filtersValue,
+    getGenresIdsArr(filtersValue, dataGenres ? dataGenres : [])
+  );
 
   if (isErrorGenres) {
     console.log(errorGenres.message);
@@ -85,7 +67,8 @@ export const Home = () => {
     <Container
       size={980}
       pt={40}
-      px={{ base: "0px", xs: 60, sm: "0px" }}
+      // px={{ base: "0px", xs: 60, sm: "0px" }}
+      px={5}
       mih="80vh"
     >
       <Text size="32px" fw={700} mb={{ base: 30, sm: 36 }} py={8}>

@@ -1,35 +1,14 @@
-import axios from "axios";
-import { DataMovies, Genre, Movie, MoviesOrNull, Video } from "./types";
+import { FiltersValue, Genre, Movie, MoviesOrNull, Video } from "./types";
 
-
-export const fetchGenres = (): Promise<Genre[]> =>
-    axios.get("/api/genres").then((response) => response.data.genres);
-
-export const fetchMovies = (
-    page: string,
-    sort: string,
-    genres: number[] | [],
-    year: string | null,
-    ratingMin: number | string | null,
-    raitingMax: number | string | null
-): Promise<DataMovies> =>
-    axios
-        .get("/api/movies", {
-            params: {
-                page: page,
-                sort_by: sort,
-                genres: genres,
-                release_year: year,
-                rating_min: ratingMin,
-                rating_max: raitingMax,
-            },
-        })
-        .then(response => response.data);
-
-export const fetchMovie = (
-    id: string
-): Promise<Movie> =>
-    axios.get(`/api/movies/${id}`).then(response => response.data)
+// * get genres ids Array
+export function getGenresIdsArr(filtersValue: FiltersValue, dataGenres: Genre[]): number[] | [] {
+    return filtersValue.genres.map((selectedGenre) => {
+        const id = dataGenres.find(
+            (genre) => selectedGenre === genre.name
+        )?.id;
+        return Number(id);
+    })
+}
 
 
 
