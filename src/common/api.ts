@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios from "./axios";
 import { DataMovies, FiltersValue, Genre, Movie, SortValue } from "./types";
 import { sortValues } from "./constants";
 
@@ -48,7 +48,7 @@ export function useMovie(id: string | undefined) {
 
 
 const fetchGenres = (): Promise<Genre[]> =>
-    axios.get("/api/genres").then((response) => response.data.genres);
+    axios.get("/genres").then((response) => response.data.genres);
 
 const fetchMovies = (
     page: string,
@@ -59,7 +59,7 @@ const fetchMovies = (
     raitingMax: number | string | null
 ): Promise<DataMovies> =>
     axios
-        .get("/api/movies", {
+        .get("/movies", {
             params: {
                 page: page,
                 sort_by: sort,
@@ -74,5 +74,5 @@ const fetchMovies = (
 const fetchMovie = (
     id: string
 ): Promise<Movie> =>
-    axios.get(`/api/movies/${id}`).then(response => response.data)
+    axios.get(`/movies/${id}`).then(response => response.data)
 

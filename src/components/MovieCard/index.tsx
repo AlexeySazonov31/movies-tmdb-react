@@ -71,7 +71,7 @@ export const MovieCard = ({
             }
             src={
               data.poster_path
-                ? "/api/image" + data.poster_path
+                ? import.meta.env.VITE_API_URL + "/image" + data.poster_path
                 : "/no-poster.jpg"
             }
             onLoad={() => setIsImageLoad(true)}
