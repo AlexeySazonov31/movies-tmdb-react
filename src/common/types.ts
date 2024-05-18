@@ -36,6 +36,7 @@ export interface FiltersProps {
     setSort: Dispatch<SortValue>;
     isErrorGenres: boolean;
     dataGenres: Genre[] | null;
+    setActivePage: Dispatch<number>;
 }
 
 export interface Search { value: string; error: boolean }

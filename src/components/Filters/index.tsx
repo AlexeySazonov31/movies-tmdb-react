@@ -25,6 +25,7 @@ const iconDown = <Image src={DownSvg} alt="icon down" h={24} w={24} />;
 export const Filters = ({ ...props }: FiltersProps) => {
   const resetFilters = (): void => {
     props.setFiltersValue(initialFiltersValue);
+    props.setActivePage(1);
   };
 
   const resetBtnProps: ResetBtnProps = {
@@ -42,17 +43,18 @@ export const Filters = ({ ...props }: FiltersProps) => {
 
   return (
     <>
-      <Grid align="flex-end" gutter={{base: "8px", sm: "16px"}} columns={10}>
-        <Grid.Col span={{ base: 5,xs: 3, sm: 3, md: 2.85, lg: 3 }}>
+      <Grid align="flex-end" gutter={{ base: "8px", sm: "16px" }} columns={10}>
+        <Grid.Col span={{ base: 5, xs: 3, sm: 3, md: 2.85, lg: 3 }}>
           <MultiSelect
             size="md"
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Genres"
             value={props.filtersValue.genres}
-            onChange={(values) =>
-              props.setFiltersValue({ ...props.filtersValue, genres: values })
-            }
+            onChange={(values) => {
+              props.setFiltersValue({ ...props.filtersValue, genres: values });
+              props.setActivePage(1);
+            }}
             placeholder="Select genre"
             error={props.isErrorGenres}
             withScrollArea={false}
@@ -60,23 +62,24 @@ export const Filters = ({ ...props }: FiltersProps) => {
             data={props.dataGenres?.map((elem) => elem.name)}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 5,xs: 3, sm: 3, md: 2.85, lg: 3 }}>
+        <Grid.Col span={{ base: 5, xs: 3, sm: 3, md: 2.85, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Release year"
             value={props.filtersValue.year}
-            onChange={(value) =>
-              props.setFiltersValue({ ...props.filtersValue, year: value })
-            }
+            onChange={(value) => {
+              props.setFiltersValue({ ...props.filtersValue, year: value });
+              props.setActivePage(1);
+            }}
             placeholder="Select release year"
             withScrollArea={false}
             withCheckIcon={false}
             data={range(1870, Number(new Date().getFullYear()) + 8).reverse()}
           />
         </Grid.Col>
-        <Grid.Col span={{ base: "auto",xs: 4, sm: 4, md: 3, lg: 3 }}>
+        <Grid.Col span={{ base: "auto", xs: 4, sm: 4, md: 3, lg: 3 }}>
           <Grid align="flex-end" gutter="8px">
             <Grid.Col span={{ base: 6 }}>
               <NumberInput
@@ -84,12 +87,13 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 label="Ratings"
                 placeholder="From"
                 value={props.filtersValue.ratingMin}
-                onChange={(value) =>
+                onChange={(value) => {
                   props.setFiltersValue({
                     ...props.filtersValue,
                     ratingMin: value,
-                  })
-                }
+                  });
+                  props.setActivePage(1);
+                }}
                 min={1}
                 max={
                   props.filtersValue.ratingMax
@@ -103,12 +107,13 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 size="md"
                 placeholder="To"
                 value={props.filtersValue.ratingMax}
-                onChange={(value) =>
+                onChange={(value) => {
                   props.setFiltersValue({
                     ...props.filtersValue,
                     ratingMax: value,
-                  })
-                }
+                  });
+                  props.setActivePage(1);
+                }}
                 min={
                   props.filtersValue.ratingMin
                     ? Number(props.filtersValue.ratingMin)
@@ -120,9 +125,15 @@ export const Filters = ({ ...props }: FiltersProps) => {
           </Grid>
         </Grid.Col>
         <Grid.Col
-          span={{base: "content", xs: "content", sm: "content", md: 1.3,lg: 1}}
+          span={{
+            base: "content",
+            xs: "content",
+            sm: "content",
+            md: 1.3,
+            lg: 1,
+          }}
         >
-          <UnstyledButton {...resetBtnProps} classNames={{root: style.root}}>
+          <UnstyledButton {...resetBtnProps} classNames={{ root: style.root }}>
             Reset filters
             {/* <span>Reset filters</span> */}
             {/* {iconClose} */}
@@ -130,14 +141,17 @@ export const Filters = ({ ...props }: FiltersProps) => {
         </Grid.Col>
       </Grid>
       <Grid align="flex-end" justify="end" gutter="16px" columns={10} my={24}>
-        <Grid.Col span={{ base: 6,xs: 4.07, sm: 5, md: 2.75, lg: 3 }}>
+        <Grid.Col span={{ base: 6, xs: 4.07, sm: 5, md: 2.75, lg: 3 }}>
           <Select
             size="md"
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Sort by"
             value={props.sort}
-            onChange={props.setSort}
+            onChange={(value) => {
+              props.setSort(value);
+              props.setActivePage(1);
+            }}
             withScrollArea={false}
             withCheckIcon={false}
             data={sortValues.map((elem) => elem.name)}

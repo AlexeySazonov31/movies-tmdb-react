@@ -25,12 +25,12 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
   const { width } = useViewportSize();
 
   const opts: YouTubeProps["opts"] = {
-    width:  isMobile ? "100%" : isMdBreakPoint ? "430" : "500",
-    height: isMobile ? (width * 9 / 16) : isMdBreakPoint ? "240" : "281",
+    width: isMobile ? "100%" : isMdBreakPoint ? "430" : "500",
+    height: isMobile ? (width * 9) / 16 : isMdBreakPoint ? "240" : "281",
   };
 
   return (
-    <Paper p={{base: 15, xs: 24}}>
+    <Paper p={{ base: 15, xs: 24 }}>
       <Stack gap={20}>
         {data?.videos?.results.length && data.videos.results[0].key ? (
           <>
@@ -50,8 +50,14 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
                 display: isYoutubeLoaded ? "block" : "none",
               }}
             />
-            {!isYoutubeLoaded ? <Skeleton           w={{ base: "100%", xs: 430, md: 500 }}
-          h={{ base: (width * 9) / 16, xs: 281, md: 240 }}/> : <></>}
+            {!isYoutubeLoaded ? (
+              <Skeleton
+                w={{ base: "100%", xs: 430, md: 500 }}
+                h={{ base: (width * 9) / 16, xs: 281, md: 240 }}
+              />
+            ) : (
+              <></>
+            )}
           </>
         ) : (
           <></>
@@ -114,4 +120,3 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
     </Paper>
   );
 };
-

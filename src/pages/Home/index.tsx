@@ -23,10 +23,45 @@ import { sortValues, initialFiltersValue } from "../../common/constants";
 import { useGenres, useMovies } from "../../common/api";
 
 export const Home = () => {
-  const [filtersValue, setFiltersValue] =
-    useState<FiltersValue>(initialFiltersValue);
-  const [sort, setSort] = useState<SortValue>(sortValues[0].name);
-  const [activePage, setActivePage] = useState<number>(1);
+  // ? think about save the states in the url query params to add feature go back in a history
+
+  // * get filters from sessionStorage if exist
+  // * (for the convenience of returning from the page of the Full Movie and reload page for update info),
+  // * else return initial Filters Value
+  const [filtersValue, setFiltersValue] = useState<FiltersValue>(() => {
+    const filtersJson = sessionStorage.getItem("filters");
+    if (typeof filtersJson === "string") {
+      return JSON.parse(filtersJson);
+    } else {
+      return initialFiltersValue;
+    }
+  });
+
+  // * get sort Value from sessionStorage if exist
+  // * (for the convenience of returning from the page of the Full Movie and reload page for update info),
+  // * else return base Sort Value
+  const [sort, setSort] = useState<SortValue>(() => {
+    const sortJson = sessionStorage.getItem("sort");
+    if (typeof sortJson === "string") {
+      return JSON.parse(sortJson);
+    } else {
+      return sortValues[0].name;
+    }
+  });
+
+  // * get page from sessionStorage if exist
+  // * (for the convenience of returning from the page of the Full Movie and reload page for update info),
+  // * else return 1 page
+  const [activePage, setActivePage] = useState<number>(() => {
+    const activePageJson = sessionStorage.getItem("homePage");
+    console.log(`get page from storage on mount: ${activePageJson}`);
+    if (typeof activePageJson === "string") {
+      return Number(JSON.parse(activePageJson));
+    } else {
+      return 1;
+    }
+  });
+
   const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
@@ -56,7 +91,10 @@ export const Home = () => {
   }
 
   useEffect(() => {
-    setActivePage(1);
+    // sessionStorage.setItem("homePage", JSON.stringify(1));
+
+    sessionStorage.setItem("filters", JSON.stringify(filtersValue));
+    sessionStorage.setItem("sort", JSON.stringify(sort));
   }, [filtersValue, sort]);
 
   useEffect(() => {
@@ -64,13 +102,7 @@ export const Home = () => {
   }, [activePage]);
 
   return (
-    <Container
-      size={980}
-      pt={40}
-      // px={{ base: "0px", xs: 60, sm: "0px" }}
-      px={5}
-      mih="80vh"
-    >
+    <Container size={980} pt={40} px={5} mih="80vh">
       <Text size="32px" fw={700} mb={{ base: 30, sm: 36 }} py={8}>
         Movies
       </Text>
@@ -81,6 +113,7 @@ export const Home = () => {
         setSort={setSort}
         isErrorGenres={isErrorGenres}
         dataGenres={dataGenres ? dataGenres : null}
+        setActivePage={setActivePage}
       />
       <Grid justify="center" pt={{ base: 25, sm: 0 }}>
         {isFetchingMovies &&
@@ -138,7 +171,10 @@ export const Home = () => {
         <Group justify="end" mt={24}>
           <Pagination
             value={activePage}
-            onChange={setActivePage}
+            onChange={(value) => {
+              setActivePage(value);
+              sessionStorage.setItem("homePage", JSON.stringify(value));
+            }}
             total={
               dataMovies?.total_pages > 500 ? 500 : dataMovies?.total_pages
             }

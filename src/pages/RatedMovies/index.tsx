@@ -123,7 +123,7 @@ export const RatedMovies = () => {
               }
             />
           </Group>
-          <Grid justify="center" h={{ base: "auto", md: "468px" }}>
+          <Grid justify="center" h={{ base: "auto", md: "405px", lg: "468px" }}>
             {showMovieList.map((elem) => {
               return (
                 <Grid.Col
