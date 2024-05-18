@@ -77,6 +77,9 @@ export const Home = () => {
   } = useGenres();
 
   // * get Movies
+  // * all inputs are strictly standardized,
+  // * so there is no point in additional validation, it is already built in,
+  // * p.s. I deprive my users of errors in its rudiment)
   const {
     isFetching: isFetchingMovies,
     isError: isErrorMovies,

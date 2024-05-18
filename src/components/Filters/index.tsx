@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { ResetBtnProps, FiltersProps } from "../../common/types";
 import {
   sortValues,
@@ -13,6 +15,7 @@ import {
   NumberInput,
   UnstyledButton,
   Image,
+  NumberInputHandlers,
 } from "@mantine/core";
 
 import style from "./resetBtn.module.scss";
@@ -22,7 +25,15 @@ const iconDown = <Image src={DownSvg} alt="icon down" h={24} w={24} />;
 // import CloseSvg from "/close.svg";
 // const iconClose = <Image src={CloseSvg} alt="icon close" h={16} w={16} />;
 
-export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage, setFiltersValue, setSort, sort }: FiltersProps) => {
+export const Filters = ({
+  dataGenres,
+  filtersValue,
+  isErrorGenres,
+  setActivePage,
+  setFiltersValue,
+  setSort,
+  sort,
+}: FiltersProps) => {
   const resetFilters = (): void => {
     setFiltersValue(initialFiltersValue);
     setActivePage(1);
@@ -43,44 +54,9 @@ export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage
     resetBtnProps.disabled = true;
   }
 
-  // * handlers for NumberInputs + little check
-  const ratingAdd = (type: "minRating" | "maxRating") => {
-    if (
-      type === "minRating" &&
-      Number(filtersValue.ratingMin) <
-        Number(filtersValue.ratingMax)
-    ) {
-      setFiltersValue({
-        ...filtersValue,
-        ratingMin: Number(filtersValue.ratingMin) + 1,
-      });
-    } else if (
-      type === "maxRating" &&
-      Number(filtersValue.ratingMax) < 10
-    ) {
-      setFiltersValue({
-        ...filtersValue,
-        ratingMax: Number(filtersValue.ratingMax) + 1,
-      });
-    }
-  };
-  const ratingSubtract = (type: "minRating" | "maxRating") => {
-    if (type === "minRating" && Number(filtersValue.ratingMin) > 1) {
-      setFiltersValue({
-        ...filtersValue,
-        ratingMin: Number(filtersValue.ratingMin) - 1,
-      });
-    } else if (
-      type === "maxRating" &&
-      Number(filtersValue.ratingMax) >
-        Number(filtersValue.ratingMin)
-    ) {
-      setFiltersValue({
-        ...filtersValue,
-        ratingMax: Number(filtersValue.ratingMax) - 1,
-      });
-    }
-  };
+  // * custom handlers for number inputs
+  const handlersRatingMinRef = useRef<NumberInputHandlers>(null);
+  const handlersRatingMaxRef = useRef<NumberInputHandlers>(null);
 
   return (
     <>
@@ -134,17 +110,24 @@ export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage
                 label="Ratings"
                 placeholder="From"
                 value={filtersValue.ratingMin}
+                clampBehavior="strict"
+                handlersRef={handlersRatingMinRef}
                 rightSection={
                   <>
-                    <UnstyledButton onClick={() => ratingAdd("minRating")}>
+                    <UnstyledButton
+                      onClick={() => handlersRatingMinRef.current?.increment()}
+                    >
                       <Image src="/up-s.svg" alt="icon down" />
                     </UnstyledButton>
-                    <UnstyledButton onClick={() => ratingSubtract("minRating")}>
+                    <UnstyledButton
+                      onClick={() => handlersRatingMinRef.current?.decrement()}
+                    >
                       <Image src="/down-s.svg" alt="icon top" />
                     </UnstyledButton>
                   </>
                 }
                 onChange={(value) => {
+                  console.log("in !!!!!");
                   const newFValue = {
                     ...filtersValue,
                     ratingMin: value,
@@ -156,9 +139,7 @@ export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage
                 }}
                 min={1}
                 max={
-                  filtersValue.ratingMax
-                    ? Number(filtersValue.ratingMax)
-                    : 10
+                  filtersValue.ratingMax ? Number(filtersValue.ratingMax) : 10
                 }
               />
             </Grid.Col>
@@ -167,12 +148,18 @@ export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage
                 size="md"
                 placeholder="To"
                 value={filtersValue.ratingMax}
+                clampBehavior="strict"
+                handlersRef={handlersRatingMaxRef}
                 rightSection={
                   <>
-                    <UnstyledButton onClick={() => ratingAdd("maxRating")}>
+                    <UnstyledButton
+                      onClick={() => handlersRatingMaxRef.current?.increment()}
+                    >
                       <Image src="/up-s.svg" alt="icon down" />
                     </UnstyledButton>
-                    <UnstyledButton onClick={() => ratingSubtract("maxRating")}>
+                    <UnstyledButton
+                      onClick={() => handlersRatingMaxRef.current?.decrement()}
+                    >
                       <Image src="/down-s.svg" alt="icon top" />
                     </UnstyledButton>
                   </>
@@ -188,9 +175,7 @@ export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage
                   setActivePage(1);
                 }}
                 min={
-                  filtersValue.ratingMin
-                    ? Number(filtersValue.ratingMin)
-                    : 1
+                  filtersValue.ratingMin ? Number(filtersValue.ratingMin) : 1
                 }
                 max={10}
               />
