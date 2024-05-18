@@ -20,8 +20,32 @@
         border-color: var(--mantine-color-purple-5) !important;
     }
 
-    &[inputmode="numeric"]:focus {
-        border-color: var(--mantine-color-purple-5) !important;
+    &[inputmode="numeric"] {
+        +.section {
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-end !important;
+            button {
+                cursor: pointer;
+                margin: 3.3px;
+                padding: 0;
+                background-color: inherit;
+                border: none;
+                width: 15px;
+                height: 15px;
+                img {
+                    padding: 1px;
+                    width: 15px;
+                    height: 15px;
+                    filter: brightness(0) saturate(100%) invert(74%) sepia(9%) saturate(259%) hue-rotate(198deg) brightness(95%) contrast(85%);
+                }
+            }
+
+        }
+
+        &:focus {
+            border-color: var(--mantine-color-purple-5) !important;
+        }
     }
 
     &[data-expanded="true"] {

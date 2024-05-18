@@ -22,10 +22,10 @@ const iconDown = <Image src={DownSvg} alt="icon down" h={24} w={24} />;
 // import CloseSvg from "/close.svg";
 // const iconClose = <Image src={CloseSvg} alt="icon close" h={16} w={16} />;
 
-export const Filters = ({ ...props }: FiltersProps) => {
+export const Filters = ({ dataGenres, filtersValue, isErrorGenres, setActivePage, setFiltersValue, setSort, sort }: FiltersProps) => {
   const resetFilters = (): void => {
-    props.setFiltersValue(initialFiltersValue);
-    props.setActivePage(1);
+    setFiltersValue(initialFiltersValue);
+    setActivePage(1);
     sessionStorage.removeItem("filters");
     sessionStorage.setItem("homePage", JSON.stringify(1));
   };
@@ -35,13 +35,52 @@ export const Filters = ({ ...props }: FiltersProps) => {
   };
 
   if (
-    !props.filtersValue.genres.length &&
-    !props.filtersValue.year &&
-    !props.filtersValue.ratingMin &&
-    !props.filtersValue.ratingMax
+    !filtersValue.genres.length &&
+    !filtersValue.year &&
+    !filtersValue.ratingMin &&
+    !filtersValue.ratingMax
   ) {
     resetBtnProps.disabled = true;
   }
+
+  // * handlers for NumberInputs + little check
+  const ratingAdd = (type: "minRating" | "maxRating") => {
+    if (
+      type === "minRating" &&
+      Number(filtersValue.ratingMin) <
+        Number(filtersValue.ratingMax)
+    ) {
+      setFiltersValue({
+        ...filtersValue,
+        ratingMin: Number(filtersValue.ratingMin) + 1,
+      });
+    } else if (
+      type === "maxRating" &&
+      Number(filtersValue.ratingMax) < 10
+    ) {
+      setFiltersValue({
+        ...filtersValue,
+        ratingMax: Number(filtersValue.ratingMax) + 1,
+      });
+    }
+  };
+  const ratingSubtract = (type: "minRating" | "maxRating") => {
+    if (type === "minRating" && Number(filtersValue.ratingMin) > 1) {
+      setFiltersValue({
+        ...filtersValue,
+        ratingMin: Number(filtersValue.ratingMin) - 1,
+      });
+    } else if (
+      type === "maxRating" &&
+      Number(filtersValue.ratingMax) >
+        Number(filtersValue.ratingMin)
+    ) {
+      setFiltersValue({
+        ...filtersValue,
+        ratingMax: Number(filtersValue.ratingMax) - 1,
+      });
+    }
+  };
 
   return (
     <>
@@ -52,19 +91,19 @@ export const Filters = ({ ...props }: FiltersProps) => {
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Genres"
-            value={props.filtersValue.genres}
+            value={filtersValue.genres}
             onChange={(values) => {
-              const newFValue = { ...props.filtersValue, genres: values };
-              props.setFiltersValue(newFValue);
+              const newFValue = { ...filtersValue, genres: values };
+              setFiltersValue(newFValue);
               sessionStorage.setItem("filters", JSON.stringify(newFValue));
               sessionStorage.setItem("homePage", JSON.stringify(1));
-              props.setActivePage(1);
+              setActivePage(1);
             }}
             placeholder="Select genre"
-            error={props.isErrorGenres}
+            error={isErrorGenres}
             withScrollArea={false}
             withCheckIcon={false}
-            data={props.dataGenres?.map((elem) => elem.name)}
+            data={dataGenres?.map((elem) => elem.name)}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 5, xs: 3, sm: 3, md: 2.85, lg: 3 }}>
@@ -73,13 +112,13 @@ export const Filters = ({ ...props }: FiltersProps) => {
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Release year"
-            value={props.filtersValue.year}
+            value={filtersValue.year}
             onChange={(value) => {
-              const newFValue = { ...props.filtersValue, year: value };
-              props.setFiltersValue(newFValue);
+              const newFValue = { ...filtersValue, year: value };
+              setFiltersValue(newFValue);
               sessionStorage.setItem("filters", JSON.stringify(newFValue));
               sessionStorage.setItem("homePage", JSON.stringify(1));
-              props.setActivePage(1);
+              setActivePage(1);
             }}
             placeholder="Select release year"
             withScrollArea={false}
@@ -94,21 +133,31 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 size="md"
                 label="Ratings"
                 placeholder="From"
-                value={props.filtersValue.ratingMin}
+                value={filtersValue.ratingMin}
+                rightSection={
+                  <>
+                    <UnstyledButton onClick={() => ratingAdd("minRating")}>
+                      <Image src="/up-s.svg" alt="icon down" />
+                    </UnstyledButton>
+                    <UnstyledButton onClick={() => ratingSubtract("minRating")}>
+                      <Image src="/down-s.svg" alt="icon top" />
+                    </UnstyledButton>
+                  </>
+                }
                 onChange={(value) => {
                   const newFValue = {
-                    ...props.filtersValue,
+                    ...filtersValue,
                     ratingMin: value,
                   };
-                  props.setFiltersValue(newFValue);
+                  setFiltersValue(newFValue);
                   sessionStorage.setItem("filters", JSON.stringify(newFValue));
                   sessionStorage.setItem("homePage", JSON.stringify(1));
-                  props.setActivePage(1);
+                  setActivePage(1);
                 }}
                 min={1}
                 max={
-                  props.filtersValue.ratingMax
-                    ? Number(props.filtersValue.ratingMax)
+                  filtersValue.ratingMax
+                    ? Number(filtersValue.ratingMax)
                     : 10
                 }
               />
@@ -117,20 +166,30 @@ export const Filters = ({ ...props }: FiltersProps) => {
               <NumberInput
                 size="md"
                 placeholder="To"
-                value={props.filtersValue.ratingMax}
+                value={filtersValue.ratingMax}
+                rightSection={
+                  <>
+                    <UnstyledButton onClick={() => ratingAdd("maxRating")}>
+                      <Image src="/up-s.svg" alt="icon down" />
+                    </UnstyledButton>
+                    <UnstyledButton onClick={() => ratingSubtract("maxRating")}>
+                      <Image src="/down-s.svg" alt="icon top" />
+                    </UnstyledButton>
+                  </>
+                }
                 onChange={(value) => {
                   const newFValue = {
-                    ...props.filtersValue,
+                    ...filtersValue,
                     ratingMax: value,
                   };
-                  props.setFiltersValue(newFValue);
+                  setFiltersValue(newFValue);
                   sessionStorage.setItem("filters", JSON.stringify(newFValue));
                   sessionStorage.setItem("homePage", JSON.stringify(1));
-                  props.setActivePage(1);
+                  setActivePage(1);
                 }}
                 min={
-                  props.filtersValue.ratingMin
-                    ? Number(props.filtersValue.ratingMin)
+                  filtersValue.ratingMin
+                    ? Number(filtersValue.ratingMin)
                     : 1
                 }
                 max={10}
@@ -161,12 +220,12 @@ export const Filters = ({ ...props }: FiltersProps) => {
             comboboxProps={dropdownProps}
             rightSection={iconDown}
             label="Sort by"
-            value={props.sort}
+            value={sort}
             onChange={(value) => {
-              props.setSort(value);
+              setSort(value);
               sessionStorage.setItem("sort", JSON.stringify(value));
               sessionStorage.setItem("homePage", JSON.stringify(1));
-              props.setActivePage(1);
+              setActivePage(1);
             }}
             withScrollArea={false}
             withCheckIcon={false}

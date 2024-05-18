@@ -61,7 +61,7 @@ export const MovieCard = ({
       >
         <Flex
           justify={isXsBreakPoint ? "center" : "space-between"}
-          direction={ isXsBreakPoint && full ? "column" : "row" }
+          direction={isXsBreakPoint && full ? "column" : "row"}
           gap={16}
         >
           {/* image block start */}
@@ -89,7 +89,10 @@ export const MovieCard = ({
             }
             src={
               data.poster_path
-                ? import.meta.env.VITE_API_URL + "/image" + (full ? "/full" : "/middle") + data.poster_path
+                ? import.meta.env.VITE_API_URL +
+                  "/image" +
+                  (full ? "/full" : "/middle") +
+                  data.poster_path
                 : "/no-poster.jpg"
             }
             onLoad={() => setIsImageLoad(true)}
@@ -100,14 +103,14 @@ export const MovieCard = ({
           />
           {/* image block end */}
           <Stack w="100%" align="flex-start" justify="space-between">
-            <Stack align="flex-start" justify="flex-start" gap={2} w="100%">
-              <Group
-                w="100%"
-                justify="space-between"
-                align="center"
-                wrap="nowrap"
-                gap={10}
-              >
+            <Group
+              w="100%"
+              justify="space-between"
+              align="center"
+              wrap="nowrap"
+              gap={10}
+            >
+              <Stack align="flex-start" justify="flex-start" gap={4} w="100%">
                 {full ? (
                   <Text
                     classNames={{ root: style.title }}
@@ -126,77 +129,78 @@ export const MovieCard = ({
                     {data.title}
                   </Text>
                 )}
-                {/* 
+                {data.release_date && (
+                  <Text span c="gray.6">
+                    {new Date(data.release_date).getFullYear()}
+                  </Text>
+                )}
+                {data.vote_count > 0 && (
+                  <Group gap={6} wrap="nowrap">
+                    <Image
+                      w={28}
+                      h={28}
+                      src="/star.svg"
+                      alt="rating icon"
+                      style={{
+                        filter: filterSvgYellow,
+                      }}
+                    />
+                    <Text fw={600}>
+                      {data.vote_average.toFixed(1)}
+                      <Text
+                        span
+                        c="gray.6"
+                        inherit
+                        fw={500}
+                        ml={7}
+                        style={{
+                          position: "relative",
+                          bottom: "0.5px",
+                        }}
+                      >
+                        ({abbrNum(data.vote_count, 0)})
+                      </Text>
+                    </Text>
+                  </Group>
+                )}
+              </Stack>
+
+              {/* 
                 // * For devices with screens smaller than 350px, 
                 // * user can add a rating only on the movie page! 
-                */}
-                <Group
-                  wrap="nowrap"
-                  gap={0}
-                  className={full ? "" : "mantine-visible-from-ss"}
-                  style={{
-                    alignSelf: "flex-start",
+              */}
+              <Group
+                wrap="nowrap"
+                gap={0}
+                className={full ? "" : "mantine-visible-from-ss"}
+                style={{
+                  alignSelf: "flex-start",
+                }}
+              >
+                <ActionIcon
+                  variant="transparent"
+                  size="lg"
+                  classNames={{
+                    root: rating
+                      ? style.ratingBtnIconRated
+                      : style.ratingBtnIcon,
                   }}
+                  onClick={open}
                 >
-                  <ActionIcon
-                    variant="transparent"
-                    size="lg"
-                    classNames={{
-                      root: rating
-                        ? style.ratingBtnIconRated
-                        : style.ratingBtnIcon,
-                    }}
-                    onClick={open}
-                  >
-                    <Image w={28} h={28} src="/star.svg" alt="rating icon" />
-                  </ActionIcon>
-                  {rating ? (
-                    <Text fw={600} ml={3} pt={1}>
-                      {rating}
-                    </Text>
-                  ) : (
-                    <></>
-                  )}
-                </Group>
-              </Group>
-
-              {data.release_date && (
-                <Text span c="gray.6">
-                  {new Date(data.release_date).getFullYear()}
-                </Text>
-              )}
-              {data.vote_count > 0 && (
-                <Group gap={6} wrap="nowrap">
-                  <Image
-                    w={28}
-                    h={28}
-                    src="/star.svg"
-                    alt="rating icon"
-                    style={{
-                      filter: filterSvgYellow,
-                    }}
-                  />
-                  <Text fw={600}>
-                    {data.vote_average.toFixed(1)}
-                    <Text
-                      span
-                      c="gray.6"
-                      inherit
-                      fw={500}
-                      ml={7}
-                      style={{
-                        position: "relative",
-                        bottom: "0.5px",
-                      }}
-                    >
-                      ({abbrNum(data.vote_count, 0)})
-                    </Text>
+                  <Image w={28} h={28} src="/star.svg" alt="rating icon" />
+                </ActionIcon>
+                {rating ? (
+                  <Text fw={600} ml={3} pt={1}>
+                    {rating}
                   </Text>
-                </Group>
-              )}
-            </Stack>
+                ) : (
+                  <></>
+                )}
+              </Group>
+            </Group>
 
             <MovieCardInfo data={data} genres={genres} full={full} />
+
           </Stack>
         </Flex>
       </Paper>
