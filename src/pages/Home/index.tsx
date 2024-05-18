@@ -4,15 +4,19 @@ import {
   Container,
   Text,
   Grid,
-  Pagination,
   Group,
   Center,
   Stack,
   Image,
 } from "@mantine/core";
 
-import { MovieCard, Filters, MovieSkeleton } from "../../components";
-import { useEffect, useState } from "react";
+import {
+  MovieCard,
+  Filters,
+  MovieSkeleton,
+  Pagination,
+} from "../../components";
+import { useState } from "react";
 import {
   getRatedMovies,
   getMovieRating,
@@ -43,7 +47,7 @@ export const Home = () => {
   const [sort, setSort] = useState<SortValue>(() => {
     const sortJson = sessionStorage.getItem("sort");
     if (typeof sortJson === "string") {
-      return JSON.parse(sortJson);
+      return String(JSON.parse(sortJson));
     } else {
       return sortValues[0].name;
     }
@@ -54,7 +58,6 @@ export const Home = () => {
   // * else return 1 page
   const [activePage, setActivePage] = useState<number>(() => {
     const activePageJson = sessionStorage.getItem("homePage");
-    console.log(`get page from storage on mount: ${activePageJson}`);
     if (typeof activePageJson === "string") {
       return Number(JSON.parse(activePageJson));
     } else {
@@ -89,17 +92,6 @@ export const Home = () => {
   if (isErrorGenres) {
     console.log(errorGenres.message);
   }
-
-  useEffect(() => {
-    // sessionStorage.setItem("homePage", JSON.stringify(1));
-
-    sessionStorage.setItem("filters", JSON.stringify(filtersValue));
-    sessionStorage.setItem("sort", JSON.stringify(sort));
-  }, [filtersValue, sort]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [activePage]);
 
   return (
     <Container size={980} pt={40} px={5} mih="80vh">
@@ -170,16 +162,12 @@ export const Home = () => {
       {dataMovies?.results.length && Number(dataMovies.total_pages) > 1 ? (
         <Group justify="end" mt={24}>
           <Pagination
-            value={activePage}
-            onChange={(value) => {
-              setActivePage(value);
-              sessionStorage.setItem("homePage", JSON.stringify(value));
-            }}
             total={
               dataMovies?.total_pages > 500 ? 500 : dataMovies?.total_pages
             }
-            siblings={1}
-            boundaries={0}
+            activePage={activePage}
+            setActivePage={setActivePage}
+            sessionStorageKeyName="homePage"
           />
         </Group>
       ) : (

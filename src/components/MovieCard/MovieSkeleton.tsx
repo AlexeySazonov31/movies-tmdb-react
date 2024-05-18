@@ -5,13 +5,31 @@ export const MovieSkeleton = ({ full = false }: { full?: boolean }) => {
   const isXsBreakPoint = useMediaQuery(`(max-width: ${em(575)})`);
 
   return (
-    <Paper p={ full ? {base: 15, xs: 24} : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }}>
-      <Flex wrap={ isXsBreakPoint && full ? "wrap" : "nowrap"} justify={isXsBreakPoint ? "center" : "space-between"} gap={16}>
+    <Paper
+      p={
+        full
+          ? { base: 15, xs: 24 }
+          : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }
+      }
+    >
+      <Flex
+        direction={isXsBreakPoint && full ? "column" : "row"}
+        justify={isXsBreakPoint ? "center" : "space-between"}
+        gap={16}
+      >
         <Skeleton
           // w={full ? 404 : 160}
           // h={full ? 372 : 170}
-          w={full ? {base: "100%", xs: 380, sm: 250, md: 404} : {base: 150, xs: 160, sm: 160, md: 140, lg: 160}}
-          h={full ? {base: 545, xs: 372, sm: 260, md: 375} : {base: 155, xs: 170, sm: 170, md: 150, lg: 170}}
+          w={
+            full
+              ? { base: "100%", xs: 380, sm: 250, md: 404 }
+              : { base: 150, xs: 160, sm: 160, md: 140, lg: 160 }
+          }
+          h={
+            full
+              ? { base: 545, xs: 372, sm: 260, md: 375 }
+              : { base: 155, xs: 170, sm: 170, md: 150, lg: 170 }
+          }
           style={{
             borderRadius: 0,
           }}

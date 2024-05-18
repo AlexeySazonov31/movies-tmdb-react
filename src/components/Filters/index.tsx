@@ -26,6 +26,8 @@ export const Filters = ({ ...props }: FiltersProps) => {
   const resetFilters = (): void => {
     props.setFiltersValue(initialFiltersValue);
     props.setActivePage(1);
+    sessionStorage.removeItem("filters");
+    sessionStorage.setItem("homePage", JSON.stringify(1));
   };
 
   const resetBtnProps: ResetBtnProps = {
@@ -52,7 +54,10 @@ export const Filters = ({ ...props }: FiltersProps) => {
             label="Genres"
             value={props.filtersValue.genres}
             onChange={(values) => {
-              props.setFiltersValue({ ...props.filtersValue, genres: values });
+              const newFValue = { ...props.filtersValue, genres: values };
+              props.setFiltersValue(newFValue);
+              sessionStorage.setItem("filters", JSON.stringify(newFValue));
+              sessionStorage.setItem("homePage", JSON.stringify(1));
               props.setActivePage(1);
             }}
             placeholder="Select genre"
@@ -70,7 +75,10 @@ export const Filters = ({ ...props }: FiltersProps) => {
             label="Release year"
             value={props.filtersValue.year}
             onChange={(value) => {
-              props.setFiltersValue({ ...props.filtersValue, year: value });
+              const newFValue = { ...props.filtersValue, year: value };
+              props.setFiltersValue(newFValue);
+              sessionStorage.setItem("filters", JSON.stringify(newFValue));
+              sessionStorage.setItem("homePage", JSON.stringify(1));
               props.setActivePage(1);
             }}
             placeholder="Select release year"
@@ -88,10 +96,13 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 placeholder="From"
                 value={props.filtersValue.ratingMin}
                 onChange={(value) => {
-                  props.setFiltersValue({
+                  const newFValue = {
                     ...props.filtersValue,
                     ratingMin: value,
-                  });
+                  };
+                  props.setFiltersValue(newFValue);
+                  sessionStorage.setItem("filters", JSON.stringify(newFValue));
+                  sessionStorage.setItem("homePage", JSON.stringify(1));
                   props.setActivePage(1);
                 }}
                 min={1}
@@ -108,10 +119,13 @@ export const Filters = ({ ...props }: FiltersProps) => {
                 placeholder="To"
                 value={props.filtersValue.ratingMax}
                 onChange={(value) => {
-                  props.setFiltersValue({
+                  const newFValue = {
                     ...props.filtersValue,
                     ratingMax: value,
-                  });
+                  };
+                  props.setFiltersValue(newFValue);
+                  sessionStorage.setItem("filters", JSON.stringify(newFValue));
+                  sessionStorage.setItem("homePage", JSON.stringify(1));
                   props.setActivePage(1);
                 }}
                 min={
@@ -150,6 +164,8 @@ export const Filters = ({ ...props }: FiltersProps) => {
             value={props.sort}
             onChange={(value) => {
               props.setSort(value);
+              sessionStorage.setItem("sort", JSON.stringify(value));
+              sessionStorage.setItem("homePage", JSON.stringify(1));
               props.setActivePage(1);
             }}
             withScrollArea={false}

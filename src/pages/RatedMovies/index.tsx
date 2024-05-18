@@ -9,7 +9,7 @@ import {
   getShowMovieList,
   searchInRatedMovies,
 } from "../../common/utils";
-import { MovieCard } from "../../components";
+import { MovieCard, Pagination } from "../../components";
 
 import {
   Button,
@@ -17,7 +17,6 @@ import {
   Grid,
   Group,
   Image,
-  Pagination,
   Stack,
   Text,
   TextInput,
@@ -30,8 +29,33 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useGenres } from "../../common/api";
 
 export const RatedMovies = () => {
-  const [activePage, setActivePage] = useState<number>(1);
-  const [search, setSearch] = useState<Search>(initialSearch);
+  // ? think about save the states in the url query params to add feature go back in history
+
+  // * get search from sessionStorage if exist
+  // * (for the convenience of returning from the page of the Full Movie and reload page for update info),
+  // * else return initial state
+  const [search, setSearch] = useState<Search>(() => {
+    const searchValueJson = sessionStorage.getItem("searchRatedMovies");
+    if (typeof searchValueJson === "string") {
+      return JSON.parse(searchValueJson);
+    } else {
+      return initialSearch;
+    }
+  });
+
+  // * get page from sessionStorage if exist
+  // * (for the convenience of returning from the page of the Full Movie and reload page for update info),
+  // * else return 1 page
+  const [activePage, setActivePage] = useState<number>(() => {
+    const activePageJson = sessionStorage.getItem("ratedPage");
+    if (typeof activePageJson === "string") {
+      return Number(JSON.parse(activePageJson));
+    } else {
+      return 1;
+    }
+  });
+
+  // * get rated movies from localStorage
   const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
@@ -64,18 +88,25 @@ export const RatedMovies = () => {
         setSearch({ ...search, error: true });
       }
       setActivePage(1);
+      sessionStorage.setItem("ratedPage", JSON.stringify(1));
+      sessionStorage.setItem("searchRatedMovies", JSON.stringify(search));
     }
   };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [activePage]);
 
   useEffect(() => {
     if (!search.value) {
       setRatedMovies(getRatedMovies());
+      sessionStorage.setItem(
+        "searchRatedMovies",
+        JSON.stringify(initialSearch)
+      );
     }
   }, [search.value]);
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   return (
     <Container size={980} pt={40} p={0} mih="70vh">
@@ -143,11 +174,10 @@ export const RatedMovies = () => {
           {ratedMovies.length > 4 ? (
             <Group justify="center" mt={24}>
               <Pagination
-                value={activePage}
-                onChange={setActivePage}
                 total={Math.ceil(ratedMovies.length / 4)}
-                siblings={1}
-                boundaries={0}
+                activePage={activePage}
+                setActivePage={setActivePage}
+                sessionStorageKeyName="ratedPage"
               />
             </Group>
           ) : (
@@ -164,7 +194,7 @@ export const RatedMovies = () => {
           <Image
             src="/no-rated.png"
             alt="no movies"
-            w={{base: "100%", xs: 400}}
+            w={{ base: "100%", xs: 400 }}
             pt={{ base: "5vh", xs: "10vh" }}
           />
           <Text size="20px" fw={600} ta="center">

@@ -152,3 +152,22 @@ export function range(a: number, b: number): string[] {
     }
     return arr;
 }
+
+export function getArrPagination(activePage: number, total: number): number[] | string[] {
+    let start: number;
+    let finish: number;
+    if (total <= 3) {
+        start = 1;
+        finish = total;
+    } else if (activePage === 1) {
+        start = 1;
+        finish = 3;
+    } else if (activePage === total) {
+        start = activePage - 2;
+        finish = activePage;
+    } else {
+        start = activePage - 1;
+        finish = activePage + 1;
+    }
+    return range(start, finish);
+}

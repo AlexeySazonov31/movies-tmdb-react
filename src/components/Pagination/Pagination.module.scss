@@ -1,27 +1,44 @@
 .root {
 
     .control {
-        border-radius: 4px !important;
         background-color: white !important;
         color: black !important;
-        border-color: var(--mantine-color-gray-3) !important;
         font-size: 16px !important;
-        transition: all 0.2s;
+        transition: all 0s;
 
-        svg {
+        height: 32px !important;
+        min-width: 32px !important;
+
+        display: flex;
+        text-align: center;
+        align-items: center;
+
+        padding: 0 10.5px !important;
+
+        border: 1px solid var(--mantine-color-gray-3) !important;
+        border-radius: 4px !important;
+
+        &[custom-type="edge"]{
+            justify-content: center;
+            padding: 0 !important;
+        }
+
+
+
+        img {
             filter: brightness(0) saturate(100%) invert(53%) sepia(10%) saturate(339%) hue-rotate(198deg) brightness(89%) contrast(87%);
         }
 
-        &[data-active] {
+        &[data-active="true"] {
             background-color: var(--mantine-color-purple-5) !important;
             color: white !important;
             border-color: var(--mantine-color-purple-5) !important;
         }
 
-        &[data-disabled] {
-            border-color: var(--mantine-color-gray-2) !important;
+        &[data-custom-disabled="true"] {
+            border: 1px solid var(--mantine-color-gray-2) !important;
 
-            svg {
+            img {
                 filter: brightness(0) saturate(100%) invert(91%) sepia(18%) saturate(22%) hue-rotate(228deg) brightness(96%) contrast(85%);
             }
         }

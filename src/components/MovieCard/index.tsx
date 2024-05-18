@@ -52,26 +52,44 @@ export const MovieCard = ({
         rating={rating}
         full={full ? full : false}
       />
-      <Paper p={ full ? {base: 15, xs: 24} : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }}>
-      <Flex wrap={ isXsBreakPoint && full ? "wrap" : "nowrap"} justify={isXsBreakPoint ? "center" : "space-between"} gap={16}>
+      <Paper
+        p={
+          full
+            ? { base: 15, xs: 24 }
+            : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }
+        }
+      >
+        <Flex
+          justify={isXsBreakPoint ? "center" : "space-between"}
+          direction={ isXsBreakPoint && full ? "column" : "row" }
+          gap={16}
+        >
           {/* image block start */}
           {!isImageLoad && data.poster_path && (
             <Skeleton
-              w={full ? {base: "100%", xs: 380, sm: 268, md: 352} : 160}
-              h={full ? {base: 545, xs: 372, sm: 250, md: 375 } : { base: 160, xs: 170, sm: 170, md: 150, lg: 170 }}
+              w={full ? { base: "100%", xs: 380, sm: 268, md: 352 } : 160}
+              h={
+                full
+                  ? { base: 545, xs: 372, sm: 250, md: 375 }
+                  : { base: 160, xs: 170, sm: 170, md: 150, lg: 170 }
+              }
               style={{
                 borderRadius: 0,
               }}
             />
           )}
           <Image
-            w={full ? {base: "100%", xs: 230, sm: 170, md: 250} : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }}
+            w={
+              full
+                ? { base: "100%", xs: 230, sm: 170, md: 250 }
+                : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }
+            }
             h={
               full ? "auto" : { base: 155, xs: 170, sm: 170, md: 150, lg: 170 }
             }
             src={
               data.poster_path
-                ? import.meta.env.VITE_API_URL + "/image" + data.poster_path
+                ? import.meta.env.VITE_API_URL + "/image" + (full ? "/full" : "/middle") + data.poster_path
                 : "/no-poster.jpg"
             }
             onLoad={() => setIsImageLoad(true)}
@@ -91,7 +109,11 @@ export const MovieCard = ({
                 gap={10}
               >
                 {full ? (
-                  <Text classNames={{ root: style.title }} component="h1" lineClamp={2}>
+                  <Text
+                    classNames={{ root: style.title }}
+                    component="h1"
+                    lineClamp={2}
+                  >
                     {data.title}
                   </Text>
                 ) : (
@@ -104,8 +126,10 @@ export const MovieCard = ({
                     {data.title}
                   </Text>
                 )}
-                {/* For devices with screens smaller than 350px, 
-                you can add a rating only on the movie page! */}
+                {/* 
+                // * For devices with screens smaller than 350px, 
+                // * user can add a rating only on the movie page! 
+                */}
                 <Group
                   wrap="nowrap"
                   gap={0}
