@@ -142,6 +142,7 @@ export const Filters = ({
                 max={
                   filtersValue.ratingMax ? Number(filtersValue.ratingMax) : 10
                 }
+                inputMode="decimal"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 6 }}>
@@ -179,6 +180,7 @@ export const Filters = ({
                   filtersValue.ratingMin ? Number(filtersValue.ratingMin) : 1
                 }
                 max={10}
+                inputMode="decimal"
               />
             </Grid.Col>
           </Grid>
