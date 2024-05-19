@@ -17,6 +17,13 @@ export function useGenres() {
 }
 
 export function useMovies(activePage: number, sort: SortValue, filtersValue: FiltersValue, genresIdsArr: number[] | []) {
+    let min: number | string = filtersValue.ratingMin;
+    let max: number | string = filtersValue.ratingMax;
+    // * reverse if min > max
+    if (filtersValue.ratingMin && filtersValue.ratingMax && filtersValue.ratingMin > filtersValue.ratingMax) {
+        min = +filtersValue.ratingMax;
+        max = +filtersValue.ratingMin;
+    }
     return useQuery({
         queryKey: ["movies", activePage, sort, filtersValue],
         queryFn: () =>
@@ -25,8 +32,8 @@ export function useMovies(activePage: number, sort: SortValue, filtersValue: Fil
                 String(sortValues.find((elem) => elem.name === sort)?.value),
                 genresIdsArr,
                 filtersValue.year,
-                filtersValue.ratingMin ? filtersValue.ratingMin : null,
-                filtersValue.ratingMax ? filtersValue.ratingMax : null
+                min ? min : null,
+                max ? max : null,
             ),
         placeholderData: keepPreviousData,
         refetchOnWindowFocus: false,

@@ -139,10 +139,8 @@ export const Filters = ({
                   setActivePage(1);
                 }}
                 min={1}
-                max={
-                  filtersValue.ratingMax ? Number(filtersValue.ratingMax) : 10
-                }
-                inputMode="decimal"
+                max={10}
+                inputMode="numeric"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 6 }}>
@@ -176,11 +174,9 @@ export const Filters = ({
                   sessionStorage.setItem("homePage", JSON.stringify(1));
                   setActivePage(1);
                 }}
-                min={
-                  filtersValue.ratingMin ? Number(filtersValue.ratingMin) : 1
-                }
+                min={1}
                 max={10}
-                inputMode="decimal"
+                inputMode="numeric"
               />
             </Grid.Col>
           </Grid>
