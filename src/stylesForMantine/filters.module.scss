@@ -22,9 +22,11 @@
 
     &[inputmode="numeric"] {
         +.section {
-            flex-direction: column !important;
-            justify-content: center !important;
-            align-items: flex-end !important;
+            justify-content: end !important;
+            display: -webkit-box !important;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+            display: -ms-flexbox !important;  /* TWEENER - IE 10 */
+            display: -webkit-flex !important; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex !important;         /* NEW, Spec - Firefox, Chrome, Opera */
             button {
                 cursor: pointer;
                 margin: 3.3px;

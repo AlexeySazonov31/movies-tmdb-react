@@ -16,6 +16,7 @@ import {
   UnstyledButton,
   Image,
   NumberInputHandlers,
+  Stack,
 } from "@mantine/core";
 
 import style from "./resetBtn.module.scss";
@@ -113,7 +114,7 @@ export const Filters = ({
                 clampBehavior="strict"
                 handlersRef={handlersRatingMinRef}
                 rightSection={
-                  <>
+                  <Stack gap={0}>
                     <UnstyledButton
                       onClick={() => handlersRatingMinRef.current?.increment()}
                     >
@@ -124,7 +125,7 @@ export const Filters = ({
                     >
                       <Image src="/down-s.svg" alt="icon top" />
                     </UnstyledButton>
-                  </>
+                  </Stack>
                 }
                 onChange={(value) => {
                   console.log("in !!!!!");
@@ -151,7 +152,7 @@ export const Filters = ({
                 clampBehavior="strict"
                 handlersRef={handlersRatingMaxRef}
                 rightSection={
-                  <>
+                  <Stack gap={0}>
                     <UnstyledButton
                       onClick={() => handlersRatingMaxRef.current?.increment()}
                     >
@@ -162,7 +163,7 @@ export const Filters = ({
                     >
                       <Image src="/down-s.svg" alt="icon top" />
                     </UnstyledButton>
-                  </>
+                  </Stack>
                 }
                 onChange={(value) => {
                   const newFValue = {
