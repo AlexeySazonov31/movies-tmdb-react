@@ -114,7 +114,7 @@ export const Filters = ({
                 clampBehavior="strict"
                 handlersRef={handlersRatingMinRef}
                 rightSection={
-                  <Stack gap={0}>
+                  <Stack gap={7}>
                     <UnstyledButton
                       onClick={() => handlersRatingMinRef.current?.increment()}
                     >
@@ -152,7 +152,7 @@ export const Filters = ({
                 clampBehavior="strict"
                 handlersRef={handlersRatingMaxRef}
                 rightSection={
-                  <Stack gap={0}>
+                  <Stack gap={7}>
                     <UnstyledButton
                       onClick={() => handlersRatingMaxRef.current?.increment()}
                     >
