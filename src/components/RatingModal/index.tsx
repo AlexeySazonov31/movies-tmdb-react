@@ -101,6 +101,7 @@ export const RatingModal = ({
       close(); // close modal
     }
   };
+
   return (
     <Modal
       opened={opened}
@@ -120,7 +121,7 @@ export const RatingModal = ({
     >
       <Divider />
       <Stack p={16} gap={16}>
-        <Text fw={600} h={22}>{data.title}</Text>
+        <Text fw={600} h={22} lineClamp={1}>{data.title}</Text>
         <Rating
           count={10}
           size="xl"
