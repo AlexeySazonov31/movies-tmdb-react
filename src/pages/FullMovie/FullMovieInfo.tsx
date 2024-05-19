@@ -98,7 +98,9 @@ export const FullMovieInfo = ({ data }: { data: Movie }) => {
                     <Avatar
                       src={
                         elem.logo_path
-                          ? "https://image.tmdb.org/t/p/w500" + elem.logo_path
+                          ? import.meta.env.VITE_API_URL +
+                            "/image/middle" +
+                            elem.logo_path
                           : null
                       }
                       alt={elem.name}
