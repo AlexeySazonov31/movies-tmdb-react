@@ -1,12 +1,8 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios from "./axios";
 import { DataMovies, FiltersValue, Genre, Movie, SortValue } from "./types";
 import { sortValues } from "./constants";
 
-
-const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-});
 
 export function useGenres() {
     return useQuery({
@@ -52,7 +48,7 @@ export function useMovie(id: string | undefined) {
 
 
 const fetchGenres = (): Promise<Genre[]> =>
-    instance.get("/genres").then((response) => response.data.genres);
+    axios.get("/genres").then((response) => response.data.genres);
 
 const fetchMovies = (
     page: string,
@@ -62,7 +58,7 @@ const fetchMovies = (
     ratingMin: number | string | null,
     raitingMax: number | string | null
 ): Promise<DataMovies> =>
-    instance
+    axios
         .get("/movies", {
             params: {
                 page: page,
@@ -78,5 +74,5 @@ const fetchMovies = (
 const fetchMovie = (
     id: string
 ): Promise<Movie> =>
-    instance.get(`/movies/${id}`).then(response => response.data)
+    axios.get(`/movies/${id}`).then(response => response.data)
 
