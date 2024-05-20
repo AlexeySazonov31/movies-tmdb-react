@@ -2,6 +2,13 @@ import { Dispatch, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
+import { Genre, Movie, MoviesOrNull } from "../../common/types";
+import { filterSvgYellow } from "../../common/constants";
+import { abbrNum } from "../../common/utils";
+
+import { RatingModal } from "../../components";
+import { MovieCardInfo } from "./MovieCardInfo";
+
 import {
   ActionIcon,
   Flex,
@@ -14,14 +21,7 @@ import {
   em,
 } from "@mantine/core";
 
-import { Genre, Movie, MoviesOrNull } from "../../common/types";
-
 import style from "./MovieCard.module.scss";
-import { filterSvgYellow } from "../../common/constants";
-
-import { RatingModal } from "../RatingModal";
-import { MovieCardInfo } from "./MovieCardInfo";
-import { abbrNum } from "../../common/utils";
 
 export const MovieCard = ({
   data,
@@ -36,8 +36,8 @@ export const MovieCard = ({
   setRatedMovies: Dispatch<MoviesOrNull>;
   full?: boolean;
 }) => {
-  const [isImageLoad, setIsImageLoad] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false); // * modal
+  const [isImageLoad, setIsImageLoad] = useState<boolean>(false);
 
   const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
   const isXsBreakPoint = useMediaQuery(`(max-width: ${em(575)})`);
@@ -65,6 +65,7 @@ export const MovieCard = ({
           gap={16}
         >
           {/* image block start */}
+          {/* // * show image or loading image Skeleton */}
           {!isImageLoad && data.poster_path && (
             <Skeleton
               w={full ? { base: "100%", xs: 380, sm: 268, md: 352 } : 160}
@@ -111,6 +112,7 @@ export const MovieCard = ({
               gap={10}
             >
               <Stack align="flex-start" justify="flex-start" gap={4} w="100%">
+                {/* // * title is link in not full mode and h1 element in full mode */}
                 {full ? (
                   <Text
                     classNames={{ root: style.title }}
@@ -129,11 +131,13 @@ export const MovieCard = ({
                     {data.title}
                   </Text>
                 )}
+                {/* // * release date */}
                 {data.release_date && (
                   <Text span c="gray.6">
                     {new Date(data.release_date).getFullYear()}
                   </Text>
                 )}
+                {/* // * rating */}
                 {data.vote_count > 0 && (
                   <Group gap={6} wrap="nowrap">
                     <Image
@@ -166,6 +170,7 @@ export const MovieCard = ({
               </Stack>
 
               {/* 
+                // * add rating block
                 // * For devices with screens smaller than 350px, 
                 // * user can add a rating only on the movie page! 
               */}
@@ -198,9 +203,11 @@ export const MovieCard = ({
                 )}
               </Group>
             </Group>
-
+            {/* 
+              // * the lower part of the movie card 
+              // * info: genres (and only in full movie page) + duration, premiere, budget, revenue
+            */}
             <MovieCardInfo data={data} genres={genres} full={full} />
-
           </Stack>
         </Flex>
       </Paper>

@@ -1,11 +1,15 @@
+import { Genre, Movie } from "../../common/types";
 import {
   dateConvert,
   genresIdsToStringNames,
   timeConvert,
 } from "../../common/utils";
-import { Genre, Movie } from "../../common/types";
+
 import { Group, Stack, Text, NumberFormatter } from "@mantine/core";
 
+// * this file is not placed in a separate folder, 
+// * because the component is used only inside the component code of the same folder, 
+// * p.s. a separate file to increase readability
 export const MovieCardInfo = ({
   data,
   genres,

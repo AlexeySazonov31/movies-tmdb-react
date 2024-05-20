@@ -1,0 +1,32 @@
+.content {
+    border-radius: 8px !important;
+}
+
+.body {
+    padding: 0 !important;
+}
+
+.header {
+    min-height: auto !important;
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+}
+
+.close {
+    svg {
+        filter: brightness(0) saturate(100%) invert(53%) sepia(9%) saturate(372%) hue-rotate(197deg) brightness(90%) contrast(92%);
+        transition: all 0.1s;
+    }
+
+    &:hover {
+        svg {
+            filter: brightness(0) saturate(100%) invert(74%) sepia(72%) saturate(2961%) hue-rotate(210deg) brightness(97%) contrast(99%);
+        }
+    }
+
+    &:active {
+        svg {
+            filter: brightness(0) saturate(100%) invert(35%) sepia(71%) saturate(2586%) hue-rotate(245deg) brightness(100%) contrast(94%);
+        }
+    }
+}

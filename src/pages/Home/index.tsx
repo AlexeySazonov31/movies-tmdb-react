@@ -1,30 +1,23 @@
-import { FiltersValue, SortValue, MoviesOrNull } from "../../common/types";
-
-import {
-  Container,
-  Text,
-  Grid,
-  Group,
-  Center,
-  Stack,
-  Image,
-} from "@mantine/core";
-
-import {
-  MovieCard,
-  Filters,
-  MovieSkeleton,
-  Pagination,
-} from "../../components";
 import { useState } from "react";
+
+import { sortValues, initialFiltersValue } from "../../common/constants";
+import { useGenres, useMovies } from "../../common/api";
+import { FiltersValue, SortValue, MoviesOrNull } from "../../common/types";
 import {
   getRatedMovies,
   getMovieRating,
   getGenresIdsArr,
 } from "../../common/utils";
 
-import { sortValues, initialFiltersValue } from "../../common/constants";
-import { useGenres, useMovies } from "../../common/api";
+import {
+  MovieCard,
+  Filters,
+  MovieCardSkeleton,
+  Pagination,
+  Message,
+} from "../../components";
+
+import { Container, Text, Grid, Group } from "@mantine/core";
 
 export const Home = () => {
   // ? think about save the states in the url query params to add feature go back in a history
@@ -65,6 +58,7 @@ export const Home = () => {
     }
   });
 
+  // * get Rated Movies from LocalStorage
   const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
@@ -92,6 +86,9 @@ export const Home = () => {
     getGenresIdsArr(filtersValue, dataGenres ? dataGenres : [])
   );
 
+  // * if error with get genres info =>
+  // * the text in genres input will turn red
+  // * and we will send error in console
   if (isErrorGenres) {
     console.log(errorGenres.message);
   }
@@ -101,6 +98,7 @@ export const Home = () => {
       <Text size="32px" fw={700} mb={{ base: 30, sm: 36 }} py={8}>
         Movies
       </Text>
+      {/* // * filters */}
       <Filters
         filtersValue={filtersValue}
         setFiltersValue={setFiltersValue}
@@ -110,7 +108,20 @@ export const Home = () => {
         dataGenres={dataGenres ? dataGenres : null}
         setActivePage={setActivePage}
       />
+      {/* // * error if exist */}
+      {!isFetchingMovies && isErrorMovies && (
+        <Message imageSrc="/no-movies.png" text={errorMovies.message} />
+      )}
+      {/* // * empty state if empty */}
+      {!isFetchingMovies && !isErrorMovies && !dataMovies?.results.length && (
+        <Message
+          imageSrc="/no-movies.png"
+          text="We don't have such movies, look for another one"
+        />
+      )}
+      {/* // * movies info grid / skeletons grid (if loading) */}
       <Grid justify="center" pt={{ base: 25, sm: 0 }}>
+        {/* // * loading state */}
         {isFetchingMovies &&
           [...Array(20).keys()].map((elem) => {
             return (
@@ -118,10 +129,11 @@ export const Home = () => {
                 key={elem}
                 span={{ base: 12, xs: 12, sm: 12, md: 6, lg: 6 }}
               >
-                <MovieSkeleton />
+                <MovieCardSkeleton />
               </Grid.Col>
             );
           })}
+        {/* // * show movies data state */}
         {!isFetchingMovies && dataMovies?.results.length ? (
           dataMovies?.results.map((elem) => {
             return (
@@ -142,26 +154,7 @@ export const Home = () => {
           <></>
         )}
       </Grid>
-      {!isErrorMovies && !isFetchingMovies && !dataMovies?.results.length && (
-        <Center h="40vh" mt={20}>
-          <Stack justify="flex-start" align="center">
-            <Image src="/no-movies.png" alt="no movies" w={311} h={252} />
-            <Text size="20" fw={600} mt={16} lh={1.3} ta="center">
-              We don't have such movies, look for another one
-            </Text>
-          </Stack>
-        </Center>
-      )}
-      {!isFetchingMovies && isErrorMovies && (
-        <Center h="40vh" mt={20}>
-          <Stack justify="flex-start" align="center">
-            <Image src="/no-movies.png" alt="no movies" w={311} h={252} />
-            <Text size="20px" fw={600} ta="center">
-              Error: {errorMovies.message}
-            </Text>
-          </Stack>
-        </Center>
-      )}
+      {/* // * custom Pagination */}
       {dataMovies?.results.length && Number(dataMovies.total_pages) > 1 ? (
         <Group justify="end" mt={24}>
           <Pagination

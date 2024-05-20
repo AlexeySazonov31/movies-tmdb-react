@@ -1,9 +1,11 @@
-import {NavLink, MultiSelect, Select, NumberInput, createTheme, Anchor, TextInput } from "@mantine/core";
+import { NavLink, MultiSelect, Select, NumberInput, createTheme, Anchor, TextInput, Modal, Rating } from "@mantine/core";
 
 import filtersClasses from "./stylesForMantine/filters.module.scss";
 import anchorClasses from "./stylesForMantine/anchor.module.scss";
 import searchClasses from "./stylesForMantine/search.module.scss";
 import navLinkClasses from "./stylesForMantine/navLink.module.scss";
+import modalClasses from "./stylesForMantine/modal.module.scss";
+import ratingClasses from "./stylesForMantine/rating.module.scss";
 
 export const theme = createTheme({
   breakpoints: {
@@ -58,7 +60,9 @@ export const theme = createTheme({
     Select: Select.extend({ classNames: filtersClasses }),
     NumberInput: NumberInput.extend({ classNames: filtersClasses }),
     Anchor: Anchor.extend({ classNames: anchorClasses }),
-    TextInput: TextInput.extend({classNames: searchClasses}),
-    NavLink: NavLink.extend({classNames: navLinkClasses}),
+    TextInput: TextInput.extend({ classNames: searchClasses }),
+    NavLink: NavLink.extend({ classNames: navLinkClasses }),
+    Modal: Modal.extend({ classNames: modalClasses }),
+    Rating: Rating.extend({ classNames: ratingClasses }),
   }
 });

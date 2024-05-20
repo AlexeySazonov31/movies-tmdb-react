@@ -1,9 +1,10 @@
-import { Group, Image, UnstyledButton } from "@mantine/core";
 import { Dispatch } from "react";
 
-import style from "./Pagination.module.scss";
 import { getArrPagination } from "../../common/utils";
+
+import { Group, Image, UnstyledButton } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
+import style from "./Pagination.module.scss";
 
 export const Pagination = ({
   total,
@@ -16,6 +17,7 @@ export const Pagination = ({
   setActivePage: Dispatch<number>;
   sessionStorageKeyName: string;
 }) => {
+  // * when changing the page, scroll up
   const [, scrollTo] = useWindowScroll();
 
   const click = (value: number): void => {
@@ -23,7 +25,7 @@ export const Pagination = ({
     setActivePage(value);
     sessionStorage.setItem(
       sessionStorageKeyName,
-      JSON.stringify(Number(value))
+      JSON.stringify(+value)
     );
   };
 
@@ -31,20 +33,20 @@ export const Pagination = ({
     <Group classNames={{ root: style.root }} gap={8}>
       <UnstyledButton
         classNames={{ root: style.control }}
-        onClick={() => {
-            !(activePage === 1) && click(activePage - 1);
-        }}
         data-custom-disabled={Boolean(activePage === 1)}
         custom-type="edge"
+        onClick={() => {
+          !(activePage === 1) && click(activePage - 1);
+        }}
       >
         <Image src="/left.svg" alt="left icon" w={16} h={16} />
       </UnstyledButton>
       {getArrPagination(activePage, total).map((elem) => {
         return (
           <UnstyledButton
-            key={"padinationBTN" + elem}
+            key={"paginationBtn" + elem}
             classNames={{ root: style.control }}
-            data-active={Boolean(Number(elem) === activePage)}
+            data-active={Boolean(+elem === activePage)}
             onClick={() => {
               click(+elem);
             }}
@@ -56,11 +58,11 @@ export const Pagination = ({
 
       <UnstyledButton
         classNames={{ root: style.control }}
-        onClick={() => {
-            !(activePage === total) && click(activePage + 1);
-        }}
         data-custom-disabled={Boolean(activePage === total)}
         custom-type="edge"
+        onClick={() => {
+          !(activePage === total) && click(activePage + 1);
+        }}
       >
         <Image src="/right.svg" alt="right icon" w={16} h={16} />
       </UnstyledButton>

@@ -12,7 +12,7 @@ import {
   getMovieRating,
   getRatedMovies,
 } from "../../common/utils";
-import { MovieCard, MovieSkeleton } from "../../components";
+import { MovieCard, MovieCardSkeleton } from "../../components";
 import { MoviesOrNull } from "../../common/types";
 import { useEffect, useState } from "react";
 import { FullMovieInfo } from "./FullMovieInfo";
@@ -34,7 +34,7 @@ export const FullMovie = () => {
   } = useMovie(id);
 
   useEffect(() => {
-    window.scrollTo(0, 50);
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -54,7 +54,7 @@ export const FullMovie = () => {
             </Breadcrumbs>
           )
         )}
-        {isFetchingMovie && !data && <MovieSkeleton full={true} />}
+        {isFetchingMovie && !data && <MovieCardSkeleton full={true} />}
         {data ? (
           <MovieCard
             data={{ ...data, genre_ids: data.genres?.map((elem) => elem.id) }}

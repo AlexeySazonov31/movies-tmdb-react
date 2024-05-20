@@ -18,7 +18,7 @@ export const PageNotFound = () => {
         w={{ xs: 500, sm: 550, md: 656 }}
         alt="Page Not Found Image"
       />
-      <Text ta="center" fw={600} size="20px" mt={45}>
+      <Text span ta="center" fw={600} size="20px" mt={45} px={20} lh="25px">
         We can’t find the page you are looking for
       </Text>
       <Button

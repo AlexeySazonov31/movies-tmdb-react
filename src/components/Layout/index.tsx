@@ -1,11 +1,11 @@
-import { useDisclosure, useHeadroom, useMediaQuery } from "@mantine/hooks";
-import { AppShell, Burger, Group, Image, Text, em } from "@mantine/core";
-import { Navbar } from "../Navbar";
 import { Outlet } from "react-router-dom";
-import icon from "/icon-navbar.svg";
+import { useDisclosure, useHeadroom, useMediaQuery } from "@mantine/hooks";
+import { Navbar, Header } from "../../components";
+
+import { AppShell, em } from "@mantine/core";
 
 export const Layout = () => {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle, close }] = useDisclosure();
   const pinned = useHeadroom({ fixedAt: 85 });
   const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
 
@@ -16,25 +16,15 @@ export const Layout = () => {
         breakpoint: "sm",
         collapsed: { mobile: !opened, desktop: false },
       }}
-      padding={{base: "xs", xs: "md"}}
       header={{
         height: 85,
         collapsed: isMobile ? (opened ? false : !pinned) : true,
         offset: false,
       }}
+      padding={{ base: "xs", xs: "md" }}
     >
-      <AppShell.Header bg="purple.1" zIndex={9999} p={24}>
-        <Group justify="space-between" >
-          <Group>
-            <Image w={32} h={32} src={icon} alt="Icon ArrowFlicks" />
-            <Text span c="purple.5" size="24px" fw={600}>
-              ArrowFlicks
-            </Text>
-          </Group>
-          <Burger opened={opened} onClick={toggle} />
-        </Group>
-      </AppShell.Header>
-      <Navbar toggle={toggle} />
+      <Header opened={opened} toggle={toggle}/>
+      <Navbar close={close} />
       <AppShell.Main pb="10vh" bg="gray.1" pt={isMobile ? "80px" : "0"}>
         <Outlet />
       </AppShell.Main>
