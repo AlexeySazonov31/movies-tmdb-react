@@ -1,37 +1,14 @@
-import { Link } from "react-router-dom";
-
-import { Button, Image, Stack, Text } from "@mantine/core";
-import style from "./PageNotFound.module.scss";
+import { Message } from "../../components";
 
 export const PageNotFound = () => {
   return (
-    <Stack
-      align="center"
-      justify="center"
-      gap={0}
-      px={20}
-      h="100vh"
-      bg="gray.1"
-    >
-      <Image
-        src="/404.png"
-        w={{ xs: 500, sm: 550, md: 656 }}
-        alt="Page Not Found Image"
-      />
-      <Text span ta="center" fw={600} size="20px" mt={45} px={20} lh="25px">
-        We can’t find the page you are looking for
-      </Text>
-      <Button
-        component={Link}
-        to="/"
-        mt={25}
-        classNames={{
-          root: style.root,
-          inner: style.inner,
-        }}
-      >
-        Go Home
-      </Button>
-    </Stack>
+    <Message
+      imageSrc="/404.png"
+      text="We can’t find the page you are looking for"
+      btnText="Go Home"
+      height="100%"
+      imageWidth={{ xs: 500, sm: 550, md: 656 }}
+      imageHeight="auto"
+    />
   );
 };

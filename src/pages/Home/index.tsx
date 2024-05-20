@@ -17,7 +17,7 @@ import {
   Message,
 } from "../../components";
 
-import { Container, Text, Grid, Group } from "@mantine/core";
+import { Container, Text, Grid, Group, Space } from "@mantine/core";
 
 export const Home = () => {
   // ? think about save the states in the url query params to add feature go back in a history
@@ -94,8 +94,8 @@ export const Home = () => {
   }
 
   return (
-    <Container size={980} pt={40} px={5} mih="80vh">
-      <Text size="32px" fw={700} mb={{ base: 30, sm: 36 }} py={8}>
+    <Container size={980} px={5}>
+      <Text size="32px" fw={700} mt={{base: 10, sm: 0}} mb={{ base: 30, sm: 36 }} py={8}>
         Movies
       </Text>
       {/* // * filters */}
@@ -110,36 +110,41 @@ export const Home = () => {
       />
       {/* // * error if exist */}
       {!isFetchingMovies && isErrorMovies && (
-        <Message imageSrc="/no-movies.png" text={errorMovies.message} />
+        <Message
+          imageSrc="/no-movies.png"
+          text={errorMovies.message}
+          height="fit-content"
+        />
       )}
       {/* // * empty state if empty */}
       {!isFetchingMovies && !isErrorMovies && !dataMovies?.results.length && (
         <Message
           imageSrc="/no-movies.png"
           text="We don't have such movies, look for another one"
+          height="fit-content"
         />
       )}
       {/* // * movies info grid / skeletons grid (if loading) */}
       <Grid justify="center" pt={{ base: 25, sm: 0 }}>
-        {/* // * loading state */}
+        {/* // * state: loading movies data */}
         {isFetchingMovies &&
           [...Array(20).keys()].map((elem) => {
             return (
               <Grid.Col
                 key={elem}
-                span={{ base: 12, xs: 12, sm: 12, md: 6, lg: 6 }}
+                span={{ base: 12, md: 6}}
               >
                 <MovieCardSkeleton />
               </Grid.Col>
             );
           })}
-        {/* // * show movies data state */}
+        {/* // * state: show movies data */}
         {!isFetchingMovies && dataMovies?.results.length ? (
           dataMovies?.results.map((elem) => {
             return (
               <Grid.Col
                 key={elem.id}
-                span={{ base: 12, xs: 12, sm: 12, md: 6, lg: 6 }}
+                span={{ base: 12, md: 6 }}
               >
                 <MovieCard
                   data={elem}
@@ -169,6 +174,7 @@ export const Home = () => {
       ) : (
         <></>
       )}
+      <Space h={100} />
     </Container>
   );
 };

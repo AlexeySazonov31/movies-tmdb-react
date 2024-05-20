@@ -22,10 +22,15 @@ export const Layout = () => {
         offset: false,
       }}
       padding={{ base: "xs", xs: "md" }}
+      styles={{
+        root: {
+          height: "100%",
+        },
+      }}
     >
-      <Header opened={opened} toggle={toggle}/>
+      <Header opened={opened} toggle={toggle} />
       <Navbar close={close} />
-      <AppShell.Main pb="10vh" bg="gray.1" pt={isMobile ? "80px" : "0"}>
+      <AppShell.Main bg="gray.1" pt={isMobile ? 105 : 40} pb={40} h="100%">
         <Outlet />
       </AppShell.Main>
     </AppShell>

@@ -86,7 +86,7 @@ export const MovieCard = ({
                 : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }
             }
             h={
-              full ? "auto" : { base: 155, xs: 170, sm: 170, md: 150, lg: 170 }
+              full ? "auto" : { base: 155, xs: 170, sm: 170, md: 155, lg: 170 }
             }
             src={
               data.poster_path

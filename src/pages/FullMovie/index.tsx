@@ -1,26 +1,27 @@
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+import { getMovieRating, getRatedMovies } from "../../common/utils";
+import { MoviesOrNull } from "../../common/types";
+import { useMovie } from "../../common/api";
+
+import { Message, MovieCard, MovieCardSkeleton } from "../../components";
+import { MovieSecondCard } from "./MovieSecondCard";
+import { MovieSecondCardSkeleton } from "./MovieSecondCardSkeleton";
+
 import {
   Anchor,
   Breadcrumbs,
   Container,
   Stack,
-  Text,
   Skeleton,
-  Center,
+  Space,
 } from "@mantine/core";
-import { Link, useParams } from "react-router-dom";
-import {
-  getMovieRating,
-  getRatedMovies,
-} from "../../common/utils";
-import { MovieCard, MovieCardSkeleton } from "../../components";
-import { MoviesOrNull } from "../../common/types";
-import { useEffect, useState } from "react";
-import { FullMovieInfo } from "./FullMovieInfo";
-import { SkeletonFullMovieInfo } from "./SkeletonFullMovieInfo";
-import { useMovie } from "../../common/api";
 
 export const FullMovie = () => {
   const { id } = useParams();
+
+  // * get rated movies from LocalStorage
   const [ratedMovies, setRatedMovies] = useState<MoviesOrNull>(
     getRatedMovies()
   );
@@ -33,14 +34,20 @@ export const FullMovie = () => {
     data,
   } = useMovie(id);
 
+  // * this page always opens from the beginning
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <Container size={800} mt={24} p={0}>
+    <Container size={800} p={0} h="100%">
+      {/* // * if error */}
+      {!isFetchingMovie && isErrorMovie && (
+        <Message text={errorMovie.message} height="100%" />
+      )}
       <Stack gap={20}>
-        {isFetchingMovie && !data ? (
+        {/* // * Breadcrumbs */}
+        {isFetchingMovie && !isErrorMovie ? (
           <Skeleton w="50%" h={20} />
         ) : (
           !isErrorMovie && (
@@ -54,8 +61,10 @@ export const FullMovie = () => {
             </Breadcrumbs>
           )
         )}
-        {isFetchingMovie && !data && <MovieCardSkeleton full={true} />}
-        {data ? (
+        {/* // * state: loading movie  */}
+        {isFetchingMovie && !isErrorMovie && <MovieCardSkeleton full={true} />}
+        {/* // * state: show movie  */}
+        {data && (
           <MovieCard
             data={{ ...data, genre_ids: data.genres?.map((elem) => elem.id) }}
             genres={data.genres}
@@ -63,27 +72,20 @@ export const FullMovie = () => {
             setRatedMovies={setRatedMovies}
             full={true}
           />
-        ) : (
-          !isFetchingMovie &&
-          isErrorMovie && (
-            <Center h="40vh">
-              <Text size="20px" fw={600}>
-                Error: {errorMovie.message}
-              </Text>
-            </Center>
-          )
         )}
-        {data?.videos?.results.length ||
-        data?.overview ||
-        data?.production_companies?.length ? (
-          <FullMovieInfo data={data} />
-        ) : !isErrorMovie &&
-          isFetchingMovie ? (
-          <SkeletonFullMovieInfo />
+        {/* // * show second movie card: Trailer, Description, Companies or loading  */}
+        {(data?.videos?.results?.length ||
+          data?.overview ||
+          data?.production_companies?.length) &&
+        !isErrorMovie ? (
+          <MovieSecondCard data={data} />
+        ) : !isErrorMovie && isFetchingMovie ? (
+          <MovieSecondCardSkeleton />
         ) : (
           <></>
         )}
       </Stack>
+      {!isErrorMovie && <Space h={100} />}
     </Container>
   );
 };

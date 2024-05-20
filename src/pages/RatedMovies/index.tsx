@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { MoviesOrNull, Search } from "../../common/types";
 import { initialSearch } from "../../common/constants";
@@ -9,24 +8,26 @@ import {
   getShowMovieList,
   searchInRatedMovies,
 } from "../../common/utils";
-import { MovieCard, Pagination } from "../../components";
+import { useGenres } from "../../common/api";
+
+import { Message, MovieCard, Pagination } from "../../components";
 
 import {
   Button,
   Container,
+  Flex,
   Grid,
   Group,
   Image,
-  Stack,
+  Space,
   Text,
   TextInput,
   em,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 
 import style from "./RatedMovies.module.scss";
 import SearchSvg from "/search.svg";
-import { useMediaQuery } from "@mantine/hooks";
-import { useGenres } from "../../common/api";
 
 export const RatedMovies = () => {
   // ? think about save the states in the url query params to add feature go back in history
@@ -72,12 +73,13 @@ export const RatedMovies = () => {
     data: dataGenres,
   } = useGenres();
 
-  // in console, we explain what the problem is,
-  // and the user will see cards without genres - that's offline mode ))
+  // * in console, we explain what the problem is,
+  // * and the user will see cards without genres - that's offline mode ))
   if (isErrorGenres) {
     console.log(errorGenres.message);
   }
 
+  // * search in rated movies Function
   const handleSearch = (): void => {
     if (search.value) {
       const searchedMovies = searchInRatedMovies(search.value);
@@ -93,7 +95,7 @@ export const RatedMovies = () => {
     }
   };
 
-
+  // * with an empty search input, we show all the rated movies
   useEffect(() => {
     if (!search.value) {
       setRatedMovies(getRatedMovies());
@@ -104,21 +106,25 @@ export const RatedMovies = () => {
     }
   }, [search.value]);
 
+  // * when the page loads, if the search is not empty,
+  // * we will get movies based on it
   useEffect(() => {
     handleSearch();
   }, []);
 
   return (
-    <Container size={980} pt={40} p={0} mih="70vh">
+    <Container size={980} p={0} h="100%">
+      {/* // * show movies list or empty state  */}
       {ratedMovies?.length && showMovieList ? (
         <>
-          <Group
-            wrap={isMobile ? "wrap" : "nowrap"}
+          {/* // * title page + search input  */}
+          <Flex
+            direction={{base: "column", sm: "row"}}
             justify="space-between"
-            align="center"
+            align={{base: "start", sm: "center"}}
             pb={40}
           >
-            <Text size="32px" fw={700}>
+            <Text size="32px" fw={700} my={{ base: 15, sm: 0 }}>
               Rated movies
             </Text>
             <TextInput
@@ -153,13 +159,14 @@ export const RatedMovies = () => {
                 </Button>
               }
             />
-          </Group>
+          </Flex>
+          {/* // * show movies list  */}
           <Grid justify="center" h={{ base: "auto", md: "405px", lg: "468px" }}>
             {showMovieList.map((elem) => {
               return (
                 <Grid.Col
                   key={elem.id}
-                  span={{ base: 12, xs: 12, sm: 12, md: 6, lg: 6 }}
+                  span={{ base: 12, md: 6 }}
                 >
                   <MovieCard
                     data={elem}
@@ -171,7 +178,8 @@ export const RatedMovies = () => {
               );
             })}
           </Grid>
-          {ratedMovies.length > 4 ? (
+          {/* // * custom pagination  */}
+          {ratedMovies.length > 4 && (
             <Group justify="center" mt={24}>
               <Pagination
                 total={Math.ceil(ratedMovies.length / 4)}
@@ -180,38 +188,16 @@ export const RatedMovies = () => {
                 sessionStorageKeyName="ratedPage"
               />
             </Group>
-          ) : (
-            <></>
           )}
+          <Space h={100} />
         </>
       ) : (
-        <Stack
-          justify="center"
-          align="center"
-          mih={{ base: "60vh", sm: "80vh" }}
-          gap={16}
-        >
-          <Image
-            src="/no-rated.png"
-            alt="no movies"
-            w={{ base: "100%", xs: 400 }}
-            pt={{ base: "5vh", xs: "10vh" }}
-          />
-          <Text size="20px" fw={600} ta="center">
-            You haven't rated any films yet
-          </Text>
-          <Button
-            component={Link}
-            h={40}
-            to="/"
-            classNames={{
-              root: style.homeBtnToot,
-              inner: style.homeBtnInner,
-            }}
-          >
-            Find movies
-          </Button>
-        </Stack>
+        <Message
+          imageSrc="/no-rated.png"
+          text="You haven't rated any films yet"
+          btnText="Find movies"
+          height="100%"
+        />
       )}
     </Container>
   );

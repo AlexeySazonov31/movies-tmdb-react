@@ -1,7 +1,7 @@
 import { Paper, Skeleton, Divider, Stack, Group } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 
-export const SkeletonFullMovieInfo = () => {
+export const MovieSecondCardSkeleton = () => {
   const { width } = useViewportSize();
 
   return (

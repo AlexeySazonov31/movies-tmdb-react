@@ -20,6 +20,7 @@ export const Navbar = ({ close }: { close: () => void }) => {
       <Box component={Link} w={"fit-content"} to="/" mb={80} style={{
         textDecoration: "none"
       }}>
+        
         <Group>
           <Image w={32} h={32} src={icon} alt="Icon ArrowFlicks" />
           <Text span c="purple.5" size="24px" fw={600}>
