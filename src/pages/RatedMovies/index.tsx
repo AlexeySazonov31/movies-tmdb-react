@@ -197,6 +197,8 @@ export const RatedMovies = () => {
           text="You haven't rated any films yet"
           btnText="Find movies"
           height="100%"
+          imageWidth={400}
+          imageHeight={300}
         />
       )}
     </Container>
