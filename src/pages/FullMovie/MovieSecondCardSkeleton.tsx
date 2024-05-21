@@ -7,15 +7,15 @@ export const MovieSecondCardSkeleton = () => {
   return (
     <Paper p={24}>
       <Stack gap={20}>
-        <Skeleton w="30%" h={25} />
+        <Skeleton w="30%" h={17} />
         <Skeleton
           mt={3}
-          w={{ base: "100%", xs: 430, md: 500 }}
-          h={{ base: (width * 9) / 16, xs: 281, md: 240 }}
+          w={{ base: "100%", sm: 430, md: 500 }}
+          h={{ base: (width * 9) / 16, sm: 247, md: 287 }}
         />
         <Divider />
         <Stack>
-          <Skeleton w="30%" h={25} />
+          <Skeleton w="30%" h={17} />
           <Skeleton h={12} />
           <Skeleton h={12} />
           <Skeleton h={12} />
@@ -23,7 +23,7 @@ export const MovieSecondCardSkeleton = () => {
         </Stack>
         <Divider />
         <Stack>
-          <Skeleton w="30%" h={25} />
+          <Skeleton w="30%" h={17} />
           <Stack gap={12}>
             {[...Array(2).keys()].map((elem) => {
               return (

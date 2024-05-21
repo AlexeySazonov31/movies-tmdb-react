@@ -1,5 +1,6 @@
 import { Paper, Skeleton, Flex, Stack, em } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { getWidthHeightImgSkeletonInMovieCard } from "../../common/utils";
 
 export const MovieCardSkeleton = ({ full = false }: { full?: boolean }) => {
   const isXsBreakPoint = useMediaQuery(`(max-width: ${em(575)})`);
@@ -17,16 +18,8 @@ export const MovieCardSkeleton = ({ full = false }: { full?: boolean }) => {
         gap={16}
       >
         <Skeleton
-          w={
-            full
-              ? { base: "100%", xs: 380, sm: 250, md: 404 }
-              : { base: 150, xs: 160, sm: 160, md: 140, lg: 160 }
-          }
-          h={
-            full
-              ? { base: 545, xs: 372, sm: 260, md: 375 }
-              : { base: 155, xs: 170, sm: 170, md: 150, lg: 170 }
-          }
+          w={getWidthHeightImgSkeletonInMovieCard("w", full)}
+          h={getWidthHeightImgSkeletonInMovieCard("h", full)}
           style={{
             borderRadius: 0,
           }}

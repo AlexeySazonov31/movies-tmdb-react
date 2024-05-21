@@ -22,7 +22,7 @@ import style from "./FullMovie.module.scss";
 export const MovieSecondCard = ({ data }: { data: Movie }) => {
   const [isYoutubeLoaded, setIsYoutubeLoaded] = useState<boolean>(false);
 
-  const isMobile = useMediaQuery(`(max-width: ${em(768)})`);
+  const isMobile = useMediaQuery(`(max-width: ${em(767)})`);
   const isMdBreakPoint = useMediaQuery(`(max-width: ${em(992)})`);
   const { width } = useViewportSize();
 
@@ -43,8 +43,8 @@ export const MovieSecondCard = ({ data }: { data: Movie }) => {
             </Text>
             {!isYoutubeLoaded && (
               <Skeleton
-                w={{ base: "100%", xs: 430, md: 500 }}
-                h={{ base: (width * 9) / 16, xs: 281, md: 240 }}
+                w={{ base: "100%", sm: 430, md: 500 }}
+                h={{ base: (width * 9) / 16, sm: 247, md: 287 }}
               />
             )}
             <YouTube

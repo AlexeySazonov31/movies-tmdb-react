@@ -48,17 +48,23 @@ export const FullMovie = () => {
       <Stack gap={20}>
         {/* // * Breadcrumbs */}
         {isFetchingMovie && !isErrorMovie ? (
-          <Skeleton w="50%" h={20} />
+          <>
+            {/* // * state: loading movie  */}
+            <Skeleton w="50%" h={16} />
+          </>
         ) : (
           !isErrorMovie && (
-            <Breadcrumbs>
-              <Anchor component={Link} to="/">
-                Movies
-              </Anchor>
-              <Anchor component={Link} to={`/movies/${id}`}>
-                {data?.title}
-              </Anchor>
-            </Breadcrumbs>
+            <>
+              {/* // * show movie  */}
+              <Breadcrumbs>
+                <Anchor component={Link} to="/">
+                  Movies
+                </Anchor>
+                <Anchor component={Link} to={`/movies/${id}`}>
+                  {data?.title}
+                </Anchor>
+              </Breadcrumbs>
+            </>
           )
         )}
         {/* // * state: loading movie  */}

@@ -1,6 +1,5 @@
 import { FiltersValue, Genre, Movie, MoviesOrNull, Video } from "./types";
 
-// * get genres ids Array
 export function getGenresIdsArr(filtersValue: FiltersValue, dataGenres: Genre[]): number[] | [] {
     return filtersValue.genres.map((selectedGenre) => {
         const id = dataGenres.find(
@@ -9,8 +8,6 @@ export function getGenresIdsArr(filtersValue: FiltersValue, dataGenres: Genre[])
         return Number(id);
     })
 }
-
-
 
 export function abbrNum(number: number | string, decPlaces: number) {
     decPlaces = Math.pow(10, decPlaces);
@@ -30,7 +27,7 @@ export function abbrNum(number: number | string, decPlaces: number) {
     }
     return number;
 }
-// * get genres names Array
+
 export function genresIdsToStringNames(
     arrIds: number[],
     genresArr: Genre[] | null,
@@ -170,4 +167,16 @@ export function getArrPagination(activePage: number, total: number): number[] | 
         finish = activePage + 1;
     }
     return range(start, finish);
+}
+
+export const getWidthHeightImgSkeletonInMovieCard = (type: "w" | "h", full: boolean) => {
+    if (type === "h" && full) {
+        return { base: 545, xs: 345, sm: 255, md: 375 };
+    } else if (type === "h" && !full) {
+        return { base: 155, xs: 170, md: 155, lg: 170 };
+    } else if (type === "w" && full) {
+        return { base: "100%", xs: 410, sm: 250, md: 390 };
+    } else if (type === "w" && !full) {
+        return { base: 145, sm: 150, lg: 160 };
+    }
 }

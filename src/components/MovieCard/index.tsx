@@ -4,7 +4,7 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 import { Genre, Movie, MoviesOrNull } from "../../common/types";
 import { filterSvgYellow } from "../../common/constants";
-import { abbrNum } from "../../common/utils";
+import { abbrNum, getWidthHeightImgSkeletonInMovieCard } from "../../common/utils";
 
 import { RatingModal } from "../../components";
 import { MovieCardInfo } from "./MovieCardInfo";
@@ -64,16 +64,12 @@ export const MovieCard = ({
           direction={isXsBreakPoint && full ? "column" : "row"}
           gap={16}
         >
-          {/* image block start */}
+          {/* image block start  */}
           {/* // * show image or loading image Skeleton */}
           {!isImageLoad && data.poster_path && (
             <Skeleton
-              w={full ? { base: "100%", xs: 380, sm: 268, md: 352 } : 160}
-              h={
-                full
-                  ? { base: 545, xs: 372, sm: 250, md: 375 }
-                  : { base: 160, xs: 170, sm: 170, md: 150, lg: 170 }
-              }
+              w={getWidthHeightImgSkeletonInMovieCard("w", full)}
+              h={getWidthHeightImgSkeletonInMovieCard("h", full)}
               style={{
                 borderRadius: 0,
               }}
@@ -83,10 +79,10 @@ export const MovieCard = ({
             w={
               full
                 ? { base: "100%", xs: 230, sm: 170, md: 250 }
-                : { base: 100, xs: 119, sm: 119, md: 100, lg: 119 }
+                : { base: 100, xs: 119, md: 100, lg: 119 }
             }
             h={
-              full ? "auto" : { base: 155, xs: 170, sm: 170, md: 155, lg: 170 }
+              full ? "auto" : { base: 155, xs: 170, md: 155, lg: 170 }
             }
             src={
               data.poster_path
