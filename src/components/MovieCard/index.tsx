@@ -182,7 +182,7 @@ export const MovieCard = ({
                   variant="transparent"
                   size="lg"
                   classNames={{
-                    root: rating
+                    root: rating !== null
                       ? style.ratingBtnIconRated
                       : style.ratingBtnIcon,
                   }}
@@ -190,7 +190,7 @@ export const MovieCard = ({
                 >
                   <Image w={28} h={28} src="/star.svg" alt="rating icon" />
                 </ActionIcon>
-                {rating ? (
+                {rating !== null ? (
                   <Text fw={600} ml={3} pt={1}>
                     {rating}
                   </Text>

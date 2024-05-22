@@ -67,7 +67,7 @@ export const Filters = ({
     handler: React.RefObject<NumberInputHandlers>
   ) => {
     return (
-      <Stack gap={7}>
+      <Stack gap={9}>
         <UnstyledButton onClick={() => handler.current?.increment()}>
           <Image src="/up-s.svg" alt="icon down" />
         </UnstyledButton>
@@ -142,9 +142,11 @@ export const Filters = ({
                 handlersRef={handlersRatingMinRef}
                 rightSection={getRightSectForNumInput(handlersRatingMinRef)}
                 onChange={(value) => handleInpValChange("ratingMin", value)}
-                min={1}
+                min={0}
                 max={10}
-                inputMode="numeric"
+                decimalScale={1}
+                decimalSeparator="," // convert "." and "," in ","
+                inputMode="decimal"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 6 }}>
@@ -156,9 +158,11 @@ export const Filters = ({
                 handlersRef={handlersRatingMaxRef}
                 rightSection={getRightSectForNumInput(handlersRatingMaxRef)}
                 onChange={(value) => handleInpValChange("ratingMax", value)}
-                min={1}
+                min={0}
                 max={10}
-                inputMode="numeric"
+                decimalScale={1}
+                decimalSeparator="," // convert "." and "," in ","
+                inputMode="decimal"
               />
             </Grid.Col>
           </Grid>

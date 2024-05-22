@@ -33,16 +33,18 @@ export const RatingModal = ({
   rating: number | null;
   full: boolean;
 }) => {
-  const [ratingValue, setRatingValue] = useState<number>(rating ? rating : 0);
+  const [ratingValue, setRatingValue] = useState<number | null>(rating ? rating : null);
   const isSsBreakPoint = useMediaQuery(`(max-width: ${em(350)})`);
 
   // * save rating function
   const saveMovieRating = (): void => {
-    // * 1 is min value for rating
-    let ratingValueForSave: number = ratingValue;
-    if (ratingValue === 0) {
-      setRatingValue(1);
-      ratingValueForSave = 1;
+    // * 0 is min value for rating
+    let ratingValueForSave: number;
+    if (ratingValue === null) {
+      setRatingValue(0);
+      ratingValueForSave = 0;
+    } else {
+      ratingValueForSave = ratingValue;
     }
 
     const json = localStorage.getItem("ratedMovies");
@@ -93,12 +95,12 @@ export const RatingModal = ({
     }
     if (!movies.length) {
       localStorage.removeItem("ratedMovies");
-      setRatingValue(0);
+      setRatingValue(null);
       setRatedMovies(null);
       close(); // * close modal
     } else {
       localStorage.setItem("ratedMovies", JSON.stringify(movies));
-      setRatingValue(0);
+      setRatingValue(null);
       setRatedMovies(movies);
       close(); // * close modal
     }
@@ -140,7 +142,7 @@ export const RatingModal = ({
           size="xl"
           emptySymbol={getImageStarForRating(false)}
           fullSymbol={getImageStarForRating(true)}
-          value={ratingValue}
+          value={ratingValue ? ratingValue : 0}
           onChange={setRatingValue}
         />
         <Group gap={16}>
@@ -156,7 +158,7 @@ export const RatingModal = ({
           </Button>
           <Button
             variant="transparent"
-            disabled={!rating}
+            disabled={rating !== null ? false : true}
             onClick={removeMovieRating}
             classNames={{
               root: style.modalBtnRemoveRoot,

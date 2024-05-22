@@ -56,7 +56,7 @@ export function getRatedMovies(): MoviesOrNull {
 export function getMovieRating(id: number, ratedMovies: MoviesOrNull): number | null {
     if (ratedMovies) {
         const movie: Movie | undefined = ratedMovies.find(elem => elem.id === id);
-        if (movie && movie.rating) {
+        if (movie && (movie.rating || movie.rating === 0)) {
             return movie.rating;
         }
     }
