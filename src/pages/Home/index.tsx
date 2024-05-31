@@ -95,7 +95,13 @@ export const Home = () => {
 
   return (
     <Container size={980} px={5}>
-      <Text size="32px" fw={700} mt={{base: 10, sm: 0}} mb={{ base: 30, sm: 36 }} py={8}>
+      <Text
+        size="32px"
+        fw={700}
+        mt={{ base: 10, sm: 0 }}
+        mb={{ base: 30, sm: 36 }}
+        py={8}
+      >
         Movies
       </Text>
       {/* // * filters */}
@@ -128,12 +134,15 @@ export const Home = () => {
       <Grid justify="center" pt={{ base: 25, sm: 0 }}>
         {/* // * state: loading movies data */}
         {isFetchingMovies &&
-          [...Array(20).keys()].map((elem) => {
+          [
+            ...Array(
+              dataMovies?.total_pages === activePage
+                ? dataMovies.total_results % 20  // ? think about next request after last page
+                : 20
+            ).keys(),
+          ].map((elem) => {
             return (
-              <Grid.Col
-                key={elem}
-                span={{ base: 12, md: 6}}
-              >
+              <Grid.Col key={elem} span={{ base: 12, md: 6 }}>
                 <MovieCardSkeleton />
               </Grid.Col>
             );
@@ -142,10 +151,7 @@ export const Home = () => {
         {!isFetchingMovies && dataMovies?.results.length ? (
           dataMovies?.results.map((elem) => {
             return (
-              <Grid.Col
-                key={elem.id}
-                span={{ base: 12, md: 6 }}
-              >
+              <Grid.Col key={elem.id} span={{ base: 12, md: 6 }}>
                 <MovieCard
                   data={elem}
                   genres={dataGenres ? dataGenres : null}

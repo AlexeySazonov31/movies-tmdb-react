@@ -43,7 +43,7 @@ export interface Search { value: string; error: boolean }
 
 export type MoviesOrNull = Movie[] | null;
 
-// * Full Movie start
+// *  Movie type start
 
 export interface Movie {
     adult: boolean
@@ -73,7 +73,7 @@ export interface Movie {
     vote_average: number
     vote_count: number
     rating?: number
-    genre_ids?: number[] // ? for valid ts in MovieCard (think about getting rid of)
+    genre_ids?: number[]
     videos?: Videos
 
 }
@@ -120,4 +120,4 @@ export interface Video {
     id: string
 }
 
-// * full movie end
+// * Movie type end

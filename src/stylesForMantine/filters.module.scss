@@ -148,7 +148,7 @@
         border-radius: 8px !important;
         color: black;
         font-size: 14px !important;
-        transition: all 0.03s;
+        transition: all 0.25s;
 
         &:hover {
             color: black;
@@ -159,5 +159,15 @@
             color: white;
             background-color: var(--mantine-color-purple-5) !important;
         }
+        
+    }
+
+    .option[aria-selected="true"]:has(+ .option[aria-selected="true"]) {
+        border-bottom-left-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        }
+    .option[aria-selected="true"] + .option[aria-selected="true"] {
+        border-top-left-radius: 0px !important;
+        border-top-right-radius: 0px !important;
     }
 }
