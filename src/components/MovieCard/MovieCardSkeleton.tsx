@@ -11,6 +11,9 @@ export const MovieCardSkeleton = ({ full = false }: { full?: boolean }) => {
           ? { base: 15, xs: 24 }
           : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }
       }
+      style={{
+        borderRadius: "12px",
+      }}
     >
       <Flex
         direction={isXsBreakPoint && full ? "column" : "row"}

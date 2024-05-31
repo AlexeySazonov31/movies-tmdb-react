@@ -137,7 +137,7 @@ export const Home = () => {
           [
             ...Array(
               dataMovies?.total_pages === activePage
-                ? dataMovies.total_results % 20  // ? think about next request after last page
+                ? dataMovies.total_results % 20 // ? think about next request after last page
                 : 20
             ).keys(),
           ].map((elem) => {

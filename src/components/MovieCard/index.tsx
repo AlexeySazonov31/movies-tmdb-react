@@ -4,7 +4,10 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 import { Genre, Movie, MoviesOrNull } from "../../common/types";
 import { filterSvgYellow } from "../../common/constants";
-import { abbrNum, getWidthHeightImgSkeletonInMovieCard } from "../../common/utils";
+import {
+  abbrNum,
+  getWidthHeightImgSkeletonInMovieCard,
+} from "../../common/utils";
 
 import { RatingModal } from "../../components";
 import { MovieCardInfo } from "./MovieCardInfo";
@@ -58,6 +61,9 @@ export const MovieCard = ({
             ? { base: 15, xs: 24 }
             : { base: 15, xs: 20, sm: 24, md: 18, lg: 24 }
         }
+        style={{
+          borderRadius: "12px",
+        }}
       >
         <Flex
           justify={isXsBreakPoint ? "center" : "space-between"}
@@ -81,9 +87,7 @@ export const MovieCard = ({
                 ? { base: "100%", xs: 230, sm: 170, md: 250 }
                 : { base: 100, xs: 119, md: 100, lg: 119 }
             }
-            h={
-              full ? "auto" : { base: 155, xs: 170, md: 155, lg: 170 }
-            }
+            h={full ? "auto" : { base: 155, xs: 170, md: 155, lg: 170 }}
             src={
               data.poster_path
                 ? import.meta.env.VITE_API_URL +
@@ -182,9 +186,10 @@ export const MovieCard = ({
                   variant="transparent"
                   size="lg"
                   classNames={{
-                    root: rating !== null
-                      ? style.ratingBtnIconRated
-                      : style.ratingBtnIcon,
+                    root:
+                      rating !== null
+                        ? style.ratingBtnIconRated
+                        : style.ratingBtnIcon,
                   }}
                   onClick={open}
                 >

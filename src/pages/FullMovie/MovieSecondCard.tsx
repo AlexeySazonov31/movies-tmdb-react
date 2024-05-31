@@ -33,7 +33,12 @@ export const MovieSecondCard = ({ data }: { data: Movie }) => {
   };
 
   return (
-    <Paper p={{ base: 15, xs: 24 }}>
+    <Paper
+      p={{ base: 15, xs: 24 }}
+      style={{
+        borderRadius: "12px",
+      }}
+    >
       <Stack gap={20}>
         {/* // * Trailer  */}
         {data?.videos?.results.length && data.videos.results[0].key ? (

@@ -5,7 +5,12 @@ export const MovieSecondCardSkeleton = () => {
   const { width } = useViewportSize();
 
   return (
-    <Paper p={24}>
+    <Paper
+      p={24}
+      style={{
+        borderRadius: "12px",
+      }}
+    >
       <Stack gap={20}>
         <Skeleton w="30%" h={17} />
         <Skeleton
